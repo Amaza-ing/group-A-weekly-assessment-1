@@ -35,14 +35,10 @@ public class Character {
 
 	public void setHp(int hp) {
 		this.hp = hp;
+		setAlive();
 	}
 
 	public void setAlive() {
-		if (getHp() > 0) {
-			isAlive = true;
-		}
-		else {
-			isAlive = false;
-		}
+		isAlive = this.hp > 0;
 	}
 }
