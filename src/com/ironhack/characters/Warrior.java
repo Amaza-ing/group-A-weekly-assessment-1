@@ -23,13 +23,13 @@ public class Warrior extends Character implements Attacker {
 	@Override
 	public void attack(Character character) {
 		if (this.stamina >= 5) {
-			System.out.println(getName() + "Made a Heavy attack to " + character.getName() + ".");
+			System.out.println(getName() + " made a Heavy attack to " + character.getName() + ".");
 			System.out.println(character.getName() + " loses " + (this.strength) + " hp.");
 			character.setHp(character.getHp() - this.strength);
 			setStamina(this.stamina - 5);
 		}
 		else {
-			System.out.println(getName() + "Made a Weak attack to " + character.getName() + ".");
+			System.out.println(getName() + " made a Weak attack to " + character.getName() + ".");
 			System.out.println(character.getName() + " loses " + (this.strength / 2) + " hp.");
 			character.setHp(character.getHp() - (this.strength / 2));
 			setStamina(this.stamina + 1);

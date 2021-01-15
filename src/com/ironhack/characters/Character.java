@@ -1,10 +1,12 @@
 package com.ironhack.characters;
 
-public class Character {
-	private int		id;
-	private String	name;
-	private int		hp;
-	private boolean	isAlive;
+import com.ironhack.interfaces.Attacker;
+
+public abstract class Character implements Attacker {
+	private final int	id;
+	private String		name;
+	private int			hp;
+	private boolean		isAlive;
 
 	public Character(int id, String name, int hp) {
 		this.id = id;
