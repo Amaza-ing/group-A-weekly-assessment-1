@@ -14,7 +14,7 @@ public class Main {
 	static List<Character> graveyard = new ArrayList<>();
 
 	public static void main(String[] args) {
-		int c1, c2;
+		int c1, c2, option;
 		Scanner scanner = new Scanner(System.in);
 
 		party1.add(new Warrior(1, "Dummy guy", 100, 10, 10));
@@ -30,6 +30,12 @@ public class Main {
 			battle(party1.get(c1), party2.get(c2));
 		}
 		result();
+		System.out.println("Do you want to visit the graveyard? Yes[0] No[1]");
+		option = Integer.parseInt(scanner.nextLine());
+		if (option == 0) {
+			graveyard();
+		}
+
 	}
 
 	public static void battle(Character c1, Character c2) {
@@ -67,6 +73,13 @@ public class Main {
 		}
 		else {
 			System.out.println("\nParty 1 wins!");
+		}
+	}
+
+	public static void graveyard() {
+		System.out.println("Rest in peace:\n");
+		for (Character i : graveyard) {
+			System.out.println(i.getName() + ".");
 		}
 	}
 }
