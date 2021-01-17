@@ -1,8 +1,8 @@
 package com.ironhack.main;
 
-import com.ironhack.characters.Warrior;
-import com.ironhack.characters.Wizard;
-import com.ironhack.characters.Character;
+import com.ironhack.classes.Character;
+import com.ironhack.classes.Warrior;
+import com.ironhack.classes.Wizard;
 
 import java.util.List;
 import java.util.Scanner;
@@ -17,58 +17,133 @@ public class Main {
     static ArrayList<Character> auxParty = new ArrayList<>();
 
     public static void main(String[] args) {
-
-        Scanner scanner = new Scanner(System.in);
-        int gameMode = 3;
-        boolean checkOption = false;
-        while (!checkOption) {
-            System.out.println("What do you want to do? Insert the number to choose an option.\n" +
-                    "1: Create your own parties.\n" + "2: Simulate a battle with random parties.\n" + "3: Exit the game.\n");
-            gameMode = scanner.nextInt();
-            if (gameMode > 0 && gameMode < 4) checkOption = true;
-            else {
-                System.err.println("You have to pick a valid number.");
+        do {
+            Scanner scanner = new Scanner(System.in);
+            int gameMode = 3;
+            boolean checkOption = false;
+            while (!checkOption) {
+                System.out.println("What do you want to do? Insert the number to choose an option.\n" +
+                        "1: Create your own parties.\n" + "2: Simulate a battle with random parties.\n" + "3: Exit the game.\n");
+                gameMode = scanner.nextInt();
+                if (gameMode > 0 && gameMode < 4) checkOption = true;
+                else {
+                    System.err.println("You have to pick a valid number.");
+                }
             }
-        }
 
-        if (gameMode == 3) {
-            System.out.println("Thanks for playing..See you soon! :)");
-            System.exit(1);
-        } else if (gameMode == 1) {
-            firstParty = new ArrayList<>(createParty(auxParty));
-            auxParty.clear();
-            secondParty = new ArrayList<>(createParty(auxParty));
+            if (gameMode == 3) {
+                System.out.println("Thanks for playing..See you soon! :)");
+                System.exit(1);
+            } else if (gameMode == 1) {
+                firstParty = new ArrayList<>(createParty(auxParty));
+                auxParty.clear();
+                secondParty = new ArrayList<>(createParty(auxParty));
 
-        } else {
-            // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
-            System.out.println("How many characters will be fighting for each party?\n");
-            Scanner sc = new Scanner(System.in);
-            int numFighters = scanner.nextInt();
-            firstParty = new ArrayList<Character>(generateGroup(numFighters));
-            secondParty = new ArrayList<>(generateGroup(numFighters));
-        }
+            } else if (gameMode == 2) {
+                // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
+                System.out.println("How many characters will be fighting for each party?\n");
+                Scanner sc = new Scanner(System.in);
+                int numFighters = scanner.nextInt();
+                firstParty = new ArrayList<>(generateGroup(numFighters));
+                secondParty = new ArrayList<>(generateGroup(numFighters));
 
+            }
+
+            System.out.println("Parties created. Starting battle!");
+            battle(firstParty, secondParty);
+            System.out.println("Battle has ended!");
+            result();
+            System.out.println("Wanna see the graveyard? Type Y/N");
+            String graveyardOp = scanner.nextLine();
+            if (graveyardOp.equalsIgnoreCase("y")) {
+                graveyard();
+            }
+            System.out.println("\n Wanna play again? Y/N");
+            String playAgain = scanner.nextLine();
+            if (playAgain.equalsIgnoreCase("n")) {
+                System.exit(1);
+            }
+            scanner.close();
+        } while (true);
     }
 
-    //Agregado los print de Juan
-	public static void battle(Character c1, Character c2) {
-		while (c1.isAlive() && c2.isAlive()) {
-			c1.attack(c2);
-			c2.attack(c1);
-			System.out.println(c1.getName() + " has: " + c1.getHp() + " hp.");
-			System.out.println(c2.getName() + " has: " + c2.getHp() + " hp.\n");
-		}
-		if (!c1.isAlive() && !c2.isAlive()) {
-			System.out.println("Both of them are dead. It's a tie!");
-			graveyard.add(c1);
-			graveyard.add(c2);
-			firstParty.remove(c1);
-			secondParty.remove(c2);
-		}
-		else if (c1.isAlive()) {
-			System.out.println(c2.getName() + " is dead. " + c1.getName() + " wins!");
-			graveyard.add(c2);
-			secondParty.remove(c2);
+    public static void battle(List<Character> firstParty, List<Character> secondParty) {
+        while (firstParty.size() > 0 && secondParty.size() > 0) {
+            int IdChar1 = 0;
+            int IdChar2 = 0;
+            boolean selectOk = false;
+
+            //The user can pick one opponent of each party using the IDs
+            Scanner sc = new Scanner(System.in);
+            do {
+                System.out.println("Select first opponent by ID: ");
+                for (Character ch : firstParty) {
+                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass() + "]");
+                }
+
+                int char1 = sc.nextInt();
+                for (Character ch : firstParty) {
+                    if (ch.getId() == char1) {
+                        IdChar1 = ch.getId();
+                        selectOk = true;
+                    }
+                }
+                if (!selectOk) {
+                    System.err.println("Wrong ID!!!");
+                }
+            } while (!selectOk);
+
+            selectOk = false;
+            do {
+                System.out.println("Select second opponent by ID: ");
+                for (Character ch : secondParty) {
+                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass() + "]");
+                }
+
+                int char2 = sc.nextInt();
+                for (Character ch : firstParty) {
+                    if (ch.getId() == char2) {
+                        IdChar2 = ch.getId();
+                        selectOk = true;
+                    }
+                }
+                if (!selectOk) {
+                    System.err.println("Wrong ID!!!");
+                }
+            } while (!selectOk);
+            sc.close();
+
+            int firstChar = IdChar1;
+            int secondChar = IdChar2;
+            //The two opponents get in combat until one or both are dead
+            combat(firstParty.stream().
+                            filter(x -> x.getId() == firstChar).
+                            findFirst().get(),
+                    secondParty.stream().
+                            filter(x -> x.getId() == secondChar).
+                            findFirst().get());
+
+            //This continues until one or both parties have no more characters.
+        }
+    }
+
+    public static void combat(Character c1, Character c2) {
+        while (c1.isAlive() && c2.isAlive()) {
+            c1.attack(c2);
+            c2.attack(c1);
+            System.out.println(c1.getName() + " has: " + c1.getHp() + " hp.");
+            System.out.println(c2.getName() + " has: " + c2.getHp() + " hp.\n");
+        }
+        if (!c1.isAlive() && !c2.isAlive()) {
+            System.out.println("Both of them are dead. It's a tie!");
+            graveyard.add(c1);
+            graveyard.add(c2);
+            firstParty.remove(c1);
+            secondParty.remove(c2);
+        } else if (c1.isAlive()) {
+            System.out.println(c2.getName() + " is dead. " + c1.getName() + " wins!");
+            graveyard.add(c2);
+            secondParty.remove(c2);
 
         } else {
             System.out.println(c1.getName() + " is dead. " + c2.getName() + " wins!");
@@ -87,28 +162,28 @@ public class Main {
         }
     }
 
-	public static void graveyard() {
-		System.out.println("Rest in peace:\n");
-		for (Character i : graveyard) {
-			System.out.println(i.getName() + ".");
-		}
-	}
+    public static void graveyard() {
+        System.out.println("Rest in peace:\n");
+        for (Character i : graveyard) {
+            System.out.println(i.getName() + ".");
+        }
+    }
 
 
-	public static ArrayList<Character> createParty(ArrayList<Character> party){
+    public static ArrayList<Character> createParty(ArrayList<Character> party) {
 
-		// Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
-		System.out.println("How many characters will be fighting for this party?\n");
-		Scanner scanner = new Scanner(System.in);
-		int numFighters = scanner.nextInt();
-		while (numFighters < 1) {
-			System.err.println("You can't create an empty party! Please try again.");
-			numFighters = scanner.nextInt();
-			if (numFighters > MAX_NUM_OF_FIGHTERS) {
-				System.err.println("A party can't have more than " + MAX_NUM_OF_FIGHTERS + " fighters. Please try again.");
-				numFighters = 0;
-			}
-		}
+        // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
+        System.out.println("How many characters will be fighting for this party?\n");
+        Scanner scanner = new Scanner(System.in);
+        int numFighters = scanner.nextInt();
+        while (numFighters < 1) {
+            System.err.println("You can't create an empty party! Please try again.");
+            numFighters = scanner.nextInt();
+            if (numFighters > MAX_NUM_OF_FIGHTERS) {
+                System.err.println("A party can't have more than " + MAX_NUM_OF_FIGHTERS + " fighters. Please try again.");
+                numFighters = 0;
+            }
+        }
 
         //Aquí empieza el proceso de creación de los personajes. Primero pedimos si se quiere crear el personaje
         //manualmente, o bien obtener uno generado por el sistema. Ésto dentro de un bucle hasta llegar a la capacidad
@@ -129,51 +204,51 @@ public class Main {
             String[] fighterType = {"Warrior", "Wizard"};
             if (creationMenu == 1) {
 
-				// Preguntamos si va a ser Warrior o Wizard
-				// Reutilizamos la variable creationMenu para incluir el tipo de personaje.
-				System.out.println("Will it be a warrior or a wizard?\n" + "1: Warrior\n" + "2: Wizard\n");
-				creationMenu = scanner.nextInt();
-				while (creationMenu != 1 || creationMenu != 2) {
-					System.err.println("Choose either Warrior or Wizard, please.");
-					System.out.println("1: Warrior\n" + "2: Wizard\n");
-					creationMenu = scanner.nextInt();
-				}
+                // Preguntamos si va a ser Warrior o Wizard
+                // Reutilizamos la variable creationMenu para incluir el tipo de personaje.
+                System.out.println("Will it be a warrior or a wizard?\n" + "1: Warrior\n" + "2: Wizard\n");
+                creationMenu = scanner.nextInt();
+                while (creationMenu != 1 || creationMenu != 2) {
+                    System.err.println("Choose either Warrior or Wizard, please.");
+                    System.out.println("1: Warrior\n" + "2: Wizard\n");
+                    creationMenu = scanner.nextInt();
+                }
 
-				// Determinamos el nombre del personaje
-				do {
-					System.out.println("Write the name of your " + fighterType[creationMenu] + ".");
-					fighterName = scanner.next();
-					if (fighterName.length() > 40) System.err.println("Characters' name must be less than 40 characters long.");
-				} while (fighterName.length() > 40);
+                // Determinamos el nombre del personaje
+                do {
+                    System.out.println("Write the name of your " + fighterType[creationMenu] + ".");
+                    fighterName = scanner.next();
+                    if (fighterName.length() > 40)
+                        System.err.println("Characters' name must be less than 40 characters long.");
+                } while (fighterName.length() > 40);
 
-				// Establecemos la vida
+                // Establecemos la vida
 
-				System.out.println("Set the health points of your " + fighterType[creationMenu] + ".");
-				hp = checkHP(fighterType[creationMenu], scanner.nextInt());
+                System.out.println("Set the health points of your " + fighterType[creationMenu] + ".");
+                hp = checkHP(fighterType[creationMenu], scanner.nextInt());
 
 
-				// Ahora, según si es Warrior o Wizards, customizamos el resto de stats
-				if (creationMenu == 1) {
-					System.out.println("Set the stamina of your Warrior");
-					stamina = checkStamina(scanner.nextInt());
-					System.out.println("Set the strength of your Warrior");
-					strength = checkStrength(scanner.nextInt());
+                // Ahora, según si es Warrior o Wizards, customizamos el resto de stats
+                if (creationMenu == 1) {
+                    System.out.println("Set the stamina of your Warrior");
+                    stamina = checkStamina(scanner.nextInt());
+                    System.out.println("Set the strength of your Warrior");
+                    strength = checkStrength(scanner.nextInt());
 
-					// Añadimos todos los stats al personaje
-					party.add(new Warrior(i+1, fighterName, hp, stamina, strength));
-				} else {
-					System.out.println("Set the mana of your Wizard");
-					mana = checkMana(scanner.nextInt());
-					System.out.println("Set the intelligence of your Wizard");
-					intelligence = checkIntelligence(scanner.nextInt());
-					party.add(new Wizard(i+1, fighterName, hp, mana, intelligence));
-				}
-			} else {
-				// PERSONAJES GENERADOS ALEATORIAMENTE. IMPLEMENTAR EL GENERADOR DE CAROLINA.
-				party.add(generateRandomCharacter(party));
-			}
-		}
-
+                    // Añadimos todos los stats al personaje
+                    party.add(new Warrior(i + 1, fighterName, hp, stamina, strength));
+                } else {
+                    System.out.println("Set the mana of your Wizard");
+                    mana = checkMana(scanner.nextInt());
+                    System.out.println("Set the intelligence of your Wizard");
+                    intelligence = checkIntelligence(scanner.nextInt());
+                    party.add(new Wizard(i + 1, fighterName, hp, mana, intelligence));
+                }
+            } else {
+                // PERSONAJES GENERADOS ALEATORIAMENTE. IMPLEMENTAR EL GENERADOR DE CAROLINA.
+                party.add(generateRandomCharacter(party));
+            }
+        }
 
         return party;
     }
