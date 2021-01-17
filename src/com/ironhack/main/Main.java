@@ -46,6 +46,7 @@ public class Main {
 
 	}
 
+	//Agregado los print de Juan
 	public static void battle(Character c1, Character c2) {
 		while (c1.isAlive() && c2.isAlive()) {
 			c1.attack(c2);
