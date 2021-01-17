@@ -1,6 +1,7 @@
 package com.ironhack.characters;
 
 import com.ironhack.interfaces.Attacker;
+import com.ironhack.styles.ConsoleColors;
 
 public class Warrior extends Character implements Attacker {
 	private int	stamina;
@@ -36,6 +37,40 @@ public class Warrior extends Character implements Attacker {
 			setStamina(this.stamina + 1);
 			System.out.println(getName() + " regenerates 1 stamina and now has: " + getStamina() + ".");
 		}
+	}
+
+//	Se hace un override del método printAvatar de la clase abstracta character
+	@Override
+	public String printAvatar(){
+
+		for (int i=1; i<=5 ; i++) { for (int j = 5; j > i ; j--) {
+			System.out.print(" ");
+		}
+			System.out.print("*");
+			for (int k = 1; k < 2*(i -1) ;k++) {
+				System.out.print(" "); } if( i==1) {
+				System.out.println("");
+			}
+			else { System.out.println("*");
+			}
+		}
+		for (int i=5-1; i>= 1 ; i--) {
+			for (int j = 5; j > i ; j--) {
+				System.out.print(" ");
+			}
+			System.out.print("*");
+			for (int k = 1; k < 2*(i -1) ;k++) {
+				System.out.print(" ");
+			}
+			if( i==1)
+				System.out.println("");
+			else
+				System.out.println("*");
+		}
+		System.out.println(ConsoleColors.RED_BACKGROUND + " WARRIOR " + ConsoleColors.RESET);
+		System.out.println("=========");
+		return getName().toUpperCase() + "\n\n";
+
 	}
 
 	/*

@@ -1,6 +1,7 @@
 package com.ironhack.characters;
 
 import com.ironhack.interfaces.Attacker;
+import com.ironhack.styles.ConsoleColors;
 
 public class Wizard extends Character implements Attacker {
 	private int	mana;
@@ -36,6 +37,22 @@ public class Wizard extends Character implements Attacker {
 			setMana(this.mana + 1);
 			System.out.println(getName() + " regenerates 1 mana and now has: " + getMana() + ".");
 		}
+	}
+
+	//	Se hace un override del método printAvatar de la clase abstracta character
+	@Override
+	public String printAvatar(){
+		for (int i=0; i<5; i++) {
+			for (int j=5-i; j>1; j--){
+				System.out.print(" ");
+			} for (int j=0; j<=i; j++ ) {
+				System.out.print("* ");
+			}
+			System.out.println();
+		}
+		System.out.println(ConsoleColors.YELLOW_BACKGROUND + " WIZZARD " + ConsoleColors.RESET);
+		System.out.println("=========");
+		return getName().toUpperCase() + "\n\n";
 	}
 
 	/*
