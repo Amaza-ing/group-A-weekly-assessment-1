@@ -4,14 +4,17 @@ import com.ironhack.characters.Character;
 import com.ironhack.characters.Warrior;
 import com.ironhack.characters.Wizard;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-	static List<Character> party1 = new ArrayList<>();
-	static List<Character> party2 = new ArrayList<>();
-	static List<Character> graveyard = new ArrayList<>();
+    static List<Character> party1 = new ArrayList<>();
+    static List<Character> party2 = new ArrayList<>();
+    static List<Character> graveyard = new ArrayList<>();
 
 	public static void main(String[] args) {
 
@@ -84,5 +87,48 @@ public class Main {
 		for (Character i : graveyard) {
 			System.out.println(i.getName() + ".");
 		}
+	}
+
+	//Import a party passing as a parameter the name of the CSV file, e.g. "myBestTeam.csv"
+	//The file must be located in the "Resources" folder.
+	public static List<Character> importParty(String filename) throws IOException {
+		List<Character> party = new ArrayList<>();
+		String filePath = "com/ironhack/resources/" + filename;
+		File file = new File(filePath);
+
+		if (!file.exists()) {
+			System.err.println("File not found, check the spelling");
+			return null;
+		}
+
+		Scanner sc = new Scanner(file);
+		sc.nextLine();
+		while (sc.hasNextLine()) {
+			List<String[]> characterValues = new ArrayList<>();
+			characterValues.add(sc.nextLine().split(","));
+
+			if (Arrays.toString(characterValues.get(0)).equalsIgnoreCase("warrior")) {
+				Warrior warrior = new Warrior(
+						Integer.parseInt(Arrays.toString(characterValues.get(1))),
+						Arrays.toString(characterValues.get(2)),
+						Integer.parseInt(Arrays.toString(characterValues.get(3))),
+						Integer.parseInt(Arrays.toString(characterValues.get(4))),
+						Integer.parseInt(Arrays.toString(characterValues.get(5)))
+				);
+				party.add(warrior);
+			} else {
+				Wizard wizard = new Wizard(
+						Integer.parseInt(Arrays.toString(characterValues.get(1))),
+						Arrays.toString(characterValues.get(2)),
+						Integer.parseInt(Arrays.toString(characterValues.get(3))),
+						Integer.parseInt(Arrays.toString(characterValues.get(4))),
+						Integer.parseInt(Arrays.toString(characterValues.get(5)))
+				);
+				party.add(wizard);
+			}
+		}
+
+		sc.close();
+		return party;
 	}
 }
