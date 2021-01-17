@@ -1,6 +1,6 @@
 package com.ironhack.interfaces;
 
-import com.ironhack.characters.Character;
+import com.ironhack.classes.Character;
 
 public interface Attacker {
 	public void attack(Character character);
