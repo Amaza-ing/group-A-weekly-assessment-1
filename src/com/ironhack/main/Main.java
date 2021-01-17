@@ -51,6 +51,7 @@ public class Main {
 
             System.out.println("Parties created. Starting battle!");
             battle(firstParty, secondParty);
+
             System.out.println("Battle has ended!");
             result();
             System.out.println("Wanna see the graveyard? Type Y/N");
@@ -173,7 +174,7 @@ public class Main {
     public static ArrayList<Character> createParty(ArrayList<Character> party) {
 
         // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
-        System.out.println("How many characters will be fighting for this party?\n");
+        System.out.println("How many characters will be fighting for this party?");
         Scanner scanner = new Scanner(System.in);
         int numFighters = scanner.nextInt();
         while (numFighters < 1) {
@@ -196,7 +197,7 @@ public class Main {
                     "2: Random character.\n" +
                     "Party members: (" + (i + 1) + "/" + numFighters + ")");
             creationMenu = scanner.nextInt();
-            while (creationMenu != 1 || creationMenu != 2) {
+            while (creationMenu != 1 && creationMenu != 2) {
                 System.err.println("Choose a valid option, please.");
                 creationMenu = scanner.nextInt();
             }
@@ -208,24 +209,25 @@ public class Main {
                 // Reutilizamos la variable creationMenu para incluir el tipo de personaje.
                 System.out.println("Will it be a warrior or a wizard?\n" + "1: Warrior\n" + "2: Wizard\n");
                 creationMenu = scanner.nextInt();
-                while (creationMenu != 1 || creationMenu != 2) {
+                while (creationMenu != 1 && creationMenu != 2) {
                     System.err.println("Choose either Warrior or Wizard, please.");
                     System.out.println("1: Warrior\n" + "2: Wizard\n");
                     creationMenu = scanner.nextInt();
                 }
+                scanner.nextLine();
 
                 // Determinamos el nombre del personaje
                 do {
-                    System.out.println("Write the name of your " + fighterType[creationMenu] + ".");
-                    fighterName = scanner.next();
-                    if (fighterName.length() > 40)
-                        System.err.println("Characters' name must be less than 40 characters long.");
-                } while (fighterName.length() > 40);
+                    System.out.println("Write the name for your " + fighterType[creationMenu - 1] + ".");
+                    fighterName = scanner.nextLine();
+                    if (fighterName.length() < 4 || fighterName.length() > 40)
+                        System.err.println("Characters' name must be between 4 and 40 characters long.");
+                } while (fighterName.length() < 4 || fighterName.length() > 40);
 
                 // Establecemos la vida
 
-                System.out.println("Set the health points of your " + fighterType[creationMenu] + ".");
-                hp = checkHP(fighterType[creationMenu], scanner.nextInt());
+                System.out.println("Set the health points of your " + fighterType[creationMenu - 1] + ".");
+                hp = checkHP(fighterType[creationMenu-1], scanner.nextInt());
 
 
                 // Ahora, según si es Warrior o Wizards, customizamos el resto de stats
@@ -237,12 +239,14 @@ public class Main {
 
                     // Añadimos todos los stats al personaje
                     party.add(new Warrior(i + 1, fighterName, hp, stamina, strength));
+                    System.out.println("Warrior created!");
                 } else {
                     System.out.println("Set the mana of your Wizard");
                     mana = checkMana(scanner.nextInt());
                     System.out.println("Set the intelligence of your Wizard");
                     intelligence = checkIntelligence(scanner.nextInt());
                     party.add(new Wizard(i + 1, fighterName, hp, mana, intelligence));
+                    System.out.println("Wizard created!");
                 }
             } else {
                 // PERSONAJES GENERADOS ALEATORIAMENTE. IMPLEMENTAR EL GENERADOR DE CAROLINA.
