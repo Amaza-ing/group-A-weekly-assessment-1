@@ -331,7 +331,7 @@ public class Main {
     public static List<Character> generateGroup(int quantity) {
         List<Character> characters = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
-            characters.set(i, generateRandomCharacter(characters));
+            characters.add(generateRandomCharacter(characters));
         }
         return characters;
     }
