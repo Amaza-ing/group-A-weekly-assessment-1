@@ -17,7 +17,7 @@ public class Wizard extends Character implements Attacker {
     //restoreHealth restores 20% of the player's current health. If the healing is over the 100hp limit for Wizards,
     //HP will be set to the maximum 100hp. RestoreHealth can only be used ONCE.
     public void restoreHealth() {
-        if (used) {
+        if (isUsed()) {
             System.out.println(getName() + " has already casted Restore Health once.");
         } else {
             if ((int) (getHp()*1.2) <= 100) {

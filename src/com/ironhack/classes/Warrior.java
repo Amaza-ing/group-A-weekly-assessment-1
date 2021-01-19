@@ -17,7 +17,7 @@ public class Warrior extends Character implements Attacker {
     //An enhanced attack consumes 7 points of stamina to deal 30% more damage on hit. It works the same way the heavy
     //attack does, it just deals more damage, consumes more stamina, and can only be casted ONCE!
     public void enhancedAttack(Character character) {
-        if (used) {
+        if (isUsed()) {
             System.out.println(getName() + " has already used the Enhanced Attack ability.");
         } else if (this.stamina >= 7) {
             System.out.print(getName() + " made an Enhanced Attack to " + character.getName() + ". ");
