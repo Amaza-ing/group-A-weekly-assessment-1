@@ -21,9 +21,10 @@ public class Main {
     static ArrayList<Character> auxParty = new ArrayList<>();
 
     public static void main(String[] args) {
-        int option = 3;
+        int option, numFighters;
+        boolean automaticBattle = false;
 
-        do {
+        while (true) {
             //se vacían las listas para cada partida
             if(graveyard.size()>0){
                 firstParty.clear();
@@ -31,52 +32,51 @@ public class Main {
                 graveyard.clear();
                 auxParty.clear();
             }
-
-            boolean checkOption = false;
-            while (!checkOption) {
-                System.out.println("What do you want to do? Insert the number to choose an option.\n" +
-                        "1: Create your own parties.\n" + "2: Simulate a battle with random parties.\n" + "3: Exit the game.\n");
-                option = Input.getInputNumber(1, 3);
-                if (option > 0 && option < 4) checkOption = true;
-                else {
-                    System.err.println("You have to pick a valid number.");
-                }
-            }
-
-            if (option == 3) {
+            System.out.println("What do you want to do? Insert the number to choose an option.\n" +
+                    "1: Create your own parties.\n" + "2: Simulate a battle with random parties.\n" +
+                    "3: Simulate whole party fight.\n" + "4: Exit the game.\n");
+            option = Input.getInputNumber(1, 4);
+            if (option == 4) {
                 System.out.println("Thanks for playing..See you soon! :)");
                 System.exit(1);
             } else if (option == 1) {
                 firstParty = new ArrayList<>(createParty(auxParty));
                 auxParty.clear();
                 secondParty = new ArrayList<>(createParty(auxParty));
-
-            } else {
+            } else if (option == 2){
                 // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
                 System.out.println("How many characters will be fighting for each party? Max number = 10\n");
-                int numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
+                numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
                 firstParty = new ArrayList<>(generateGroup(numFighters));
                 secondParty = new ArrayList<>(generateGroup(numFighters));
-
+            } else {
+                numFighters = randomNumber(1, MAX_NUM_OF_FIGHTERS);
+                System.out.println("There are: " + numFighters + " characters in each party.");
+                firstParty = new ArrayList<>(generateGroup(numFighters));
+                secondParty = new ArrayList<>(generateGroup(numFighters));
+                automaticBattle = true;
             }
 
             System.out.println("Parties created. Starting battle!");
-            battle(firstParty, secondParty);
-
+            if (!automaticBattle) {
+                battle(firstParty, secondParty);
+            }
+            else {
+                automaticBattle(firstParty, secondParty);
+            }
             System.out.println("Battle has ended!");
             result();
-
             System.out.println("Wanna see the graveyard? Type 1[Yes] / 2[No]");
             option = Input.getInputNumber(1, 2);
             if (option == 1) {
                 graveyard();
             }
-            System.out.println("\n Wanna play again? Type 1[Yes] / 2[No]");
+            System.out.println("\nWanna play again? Type 1[Yes] / 2[No]");
             option = Input.getInputNumber(1, 2);
             if (option == 2) {
                 System.exit(1);
             }
-        } while (true);
+        }
     }
 
     public static void battle(List<Character> firstParty, List<Character> secondParty) {
@@ -142,6 +142,29 @@ public class Main {
             combat(opponent1, opponent2);
 
             //This continues until one or both parties have no more characters.
+        }
+    }
+
+    public static void automaticBattle(List<Character> firstParty, List<Character> secondParty) {
+        while (firstParty.size() > 0 && secondParty.size() > 0) {
+            for (Character ch : firstParty) {
+                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass().getName() + "]");
+            }
+            int char1 = randomNumber(0, firstParty.size() - 1);
+            System.out.println("Character chosen from first party: " + firstParty.get(char1).getName());
+            Character opponent1 = firstParty.get(char1);
+            System.out.println(opponent1.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
+
+            for (Character ch : secondParty) {
+                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass().getName() + "]");
+            }
+            int char2 = randomNumber(0, secondParty.size() - 1);
+            System.out.println("Character chosen from second party: " + secondParty.get(char2).getName());
+            Character opponent2 = secondParty.get(char2);
+            System.out.println(opponent2.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
+
+            //The two opponents get in combat until one or both are dead
+            combat(opponent1, opponent2);
         }
     }
 
