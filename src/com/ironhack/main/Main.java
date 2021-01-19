@@ -62,14 +62,14 @@ public class Main {
                     // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
                     System.out.println("How many characters will be fighting for each party? Max number = 10\n");
                     numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
-                    firstParty = new ArrayList<>(generateGroup(numFighters));
-                    secondParty = new ArrayList<>(generateGroup(numFighters));
+                    firstParty = new ArrayList<>(generateGroup(numFighters, 0));
+                    secondParty = new ArrayList<>(generateGroup(numFighters, numFighters));
                     break;
                 case 4:
                     numFighters = randomNumber(1, MAX_NUM_OF_FIGHTERS);
                     System.out.println("There are: " + numFighters + " characters in each party.");
-                    firstParty = new ArrayList<>(generateGroup(numFighters));
-                    secondParty = new ArrayList<>(generateGroup(numFighters));
+                    firstParty = new ArrayList<>(generateGroup(numFighters, 0));
+                    secondParty = new ArrayList<>(generateGroup(numFighters, numFighters));
                     automaticBattle = true;
                     break;
                 case 5:
@@ -287,7 +287,7 @@ public class Main {
                 }
             } else {
                 // Randomly generated characters.
-                party.add(generateRandomCharacter(party));
+                party.add(generateRandomCharacter(party, i+1));
             }
         }
 
@@ -341,23 +341,23 @@ public class Main {
         return intel;
     }
 
-    public static List<Character> generateGroup(int quantity) {
+    public static List<Character> generateGroup(int quantity, int index) {
         List<Character> characters = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
-            characters.add(generateRandomCharacter(characters));
+            characters.add(generateRandomCharacter(characters, i+index));
         }
         return characters;
     }
 
-    public static Character generateRandomCharacter(List<Character> personajesActuales) {
+    public static Character generateRandomCharacter(List<Character> personajesActuales, int id) {
 
         String[] nameRandom = {"Legolas", "Darth Vader", "Mark Zuckerberg", "Harry Potter", "Voldemort", "Víctor Cardozo", "Arnoldo Sicilia", "Xabier García", "Steve Jobs", "Thanos", "Donald Trump", "Spider-Man", "Varian Wrynn", "Sylvanas", "Putin", "Kim Jong-un"};
         Character character;
 
         if (randomNumber(0, 1) == 0) {
-            character = new Warrior(randomNumber(0, 1000), nameRandom[randomNumber(0, 15)], randomNumber(100, 200), randomNumber(10, 50), randomNumber(1, 10));
+            character = new Warrior(id, nameRandom[randomNumber(0, 15)], randomNumber(100, 200), randomNumber(10, 50), randomNumber(1, 10));
         } else {
-            character = new Wizard(randomNumber(0, 1000), nameRandom[randomNumber(0, 15)], randomNumber(50, 100), randomNumber(10, 50), randomNumber(1, 50));
+            character = new Wizard(id, nameRandom[randomNumber(0, 15)], randomNumber(50, 100), randomNumber(10, 50), randomNumber(1, 50));
         }
 
         for (Character personaje : personajesActuales) {
