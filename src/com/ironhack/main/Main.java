@@ -7,10 +7,7 @@ import com.ironhack.input.Input;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Main {
 
@@ -18,7 +15,6 @@ public class Main {
     static ArrayList<Character> firstParty;
     static ArrayList<Character> secondParty;
     static ArrayList<Character> graveyard = new ArrayList<>();
-    static ArrayList<Character> auxParty = new ArrayList<>();
 
     public static void main(String[] args) {
         int option, numFighters;
@@ -30,7 +26,6 @@ public class Main {
                 firstParty.clear();
                 secondParty.clear();
                 graveyard.clear();
-                auxParty.clear();
             }
             System.out.println("What do you want to do? Insert the number to choose an option.\n" +
                     "\t1: Create your own parties and pick the character for each round.\n" +
@@ -43,9 +38,8 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    firstParty = new ArrayList<>(createParty(auxParty));
-                    auxParty.clear();
-                    secondParty = new ArrayList<>(createParty(auxParty));
+                    firstParty = new ArrayList<>(createParty());
+                    secondParty = new ArrayList<>(createParty());
                     break;
                 case 2:
                     System.out.println("Type the name of the first file (e.g. 'characters.csv')");
@@ -105,6 +99,7 @@ public class Main {
                 System.out.println("\nWanna play again? Type 1[Yes] / 2[No]");
                 option = Input.getInputNumber(1, 2);
                 if (option == 2) {
+                    System.out.println("Thanks for playing..See you soon! :)");
                     System.exit(1);
                 }
             }
@@ -243,8 +238,9 @@ public class Main {
         }
     }
 
-    public static ArrayList<Character> createParty(ArrayList<Character> party) {
+    public static ArrayList<Character> createParty() {
         int CharacterNum, option, hp, stamina, strength, mana, intelligence;
+        ArrayList<Character> party = new ArrayList<>();
         String fighterName;
 
         // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
@@ -397,34 +393,33 @@ public class Main {
             System.err.println("File not found, check the spelling");
             return null;
         }
-
         Scanner sc = new Scanner(file);
         sc.nextLine();
+        ArrayList<String[]> characterValues = new ArrayList<>();
         while (sc.hasNextLine()) {
-            List<String[]> characterValues = new ArrayList<>();
             characterValues.add(sc.nextLine().split(","));
-            System.out.println(characterValues.size());
-            if (Arrays.toString(characterValues.get(0)).equalsIgnoreCase("warrior")) {
+        }
+        for (String[] characterValue : characterValues) {
+            if (characterValue[0].equalsIgnoreCase("warrior")) {
                 Warrior warrior = new Warrior(
-                        Integer.parseInt(Arrays.toString(characterValues.get(1))),
-                        Arrays.toString(characterValues.get(2)),
-                        Integer.parseInt(Arrays.toString(characterValues.get(3))),
-                        Integer.parseInt(Arrays.toString(characterValues.get(4))),
-                        Integer.parseInt(Arrays.toString(characterValues.get(5)))
+                        Integer.parseInt(characterValue[1].trim()),
+                        characterValue[2],
+                        Integer.parseInt(characterValue[3].trim()),
+                        Integer.parseInt(characterValue[4].trim()),
+                        Integer.parseInt(characterValue[5].trim())
                 );
                 party.add(warrior);
             } else {
                 Wizard wizard = new Wizard(
-                        Integer.parseInt(Arrays.toString(characterValues.get(1))),
-                        Arrays.toString(characterValues.get(2)),
-                        Integer.parseInt(Arrays.toString(characterValues.get(3))),
-                        Integer.parseInt(Arrays.toString(characterValues.get(4))),
-                        Integer.parseInt(Arrays.toString(characterValues.get(5)))
+                        Integer.parseInt(characterValue[1].trim()),
+                        characterValue[2],
+                        Integer.parseInt(characterValue[3].trim()),
+                        Integer.parseInt(characterValue[4].trim()),
+                        Integer.parseInt(characterValue[5].trim())
                 );
                 party.add(wizard);
             }
         }
-
         sc.close();
         return party;
     }

@@ -1,0 +1,3 @@
+"Type", "id", "Name", "HP", "Stamina/Mana", "Strength/Intelligence"
+"Warrior", 231, Bad Warrior, 100, 25, 5
+"Wizard", 312, Lousy Wizard, 100, 17, 10

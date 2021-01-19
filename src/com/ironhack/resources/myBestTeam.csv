@@ -1,3 +1,3 @@
 "Type", "id", "Name", "HP", "Stamina/Mana", "Strength/Intelligence"
-"Warrior",231,"Warrior1",100,35,5
-"Wizard",312,"Wizard1",100,27,15
+"Warrior", 231, Great Warrior, 180, 45, 10
+"Wizard", 312, Mighty Wizard, 190, 45, 50
