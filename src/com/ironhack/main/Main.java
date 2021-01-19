@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) {
         do {
             //se vacían las listas para cada partida
-            if(graveyard.size()>0){
+            if (graveyard.size() > 0) {
                 firstParty.clear();
                 secondParty.clear();
                 graveyard.clear();
@@ -92,7 +92,12 @@ public class Main {
             do {
                 System.out.println("Select first opponent by ID: ");
                 for (Character ch : firstParty) {
-                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass().getName() + "]");
+                    String type;
+                    if (ch.getClass() == Warrior.class)
+                        type = "Warrior";
+                    else
+                        type = "Wizard";
+                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + type + "]");
                 }
 
                 int char1 = sc.nextInt();
@@ -118,8 +123,13 @@ public class Main {
             selectOk = false;
             do {
                 System.out.println("Select second opponent by ID: ");
-                for (Character ch : secondParty) {
-                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass().getName() + "]");
+                for (Character ch : secondParty)  {
+                    String type;
+                    if (ch.getClass() == Warrior.class)
+                        type = "Warrior";
+                    else
+                        type = "Wizard";
+                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + type + "]");
                 }
 
                 int char2 = sc.nextInt();
