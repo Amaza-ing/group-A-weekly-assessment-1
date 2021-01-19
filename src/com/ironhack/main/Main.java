@@ -3,6 +3,7 @@ package com.ironhack.main;
 import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
 import com.ironhack.classes.Wizard;
+import com.ironhack.input.Input;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,8 @@ public class Main {
     static ArrayList<Character> auxParty = new ArrayList<>();
 
     public static void main(String[] args) {
+        int option = 3;
+
         do {
             //se vacían las listas para cada partida
             if(graveyard.size()>0){
@@ -29,32 +32,29 @@ public class Main {
                 auxParty.clear();
             }
 
-            Scanner scanner = new Scanner(System.in);
-            int gameMode = 3;
             boolean checkOption = false;
             while (!checkOption) {
                 System.out.println("What do you want to do? Insert the number to choose an option.\n" +
                         "1: Create your own parties.\n" + "2: Simulate a battle with random parties.\n" + "3: Exit the game.\n");
-                gameMode = scanner.nextInt();
-                if (gameMode > 0 && gameMode < 4) checkOption = true;
+                option = Input.getInputNumber(1, 3);
+                if (option > 0 && option < 4) checkOption = true;
                 else {
                     System.err.println("You have to pick a valid number.");
                 }
             }
 
-            if (gameMode == 3) {
+            if (option == 3) {
                 System.out.println("Thanks for playing..See you soon! :)");
                 System.exit(1);
-            } else if (gameMode == 1) {
+            } else if (option == 1) {
                 firstParty = new ArrayList<>(createParty(auxParty));
                 auxParty.clear();
                 secondParty = new ArrayList<>(createParty(auxParty));
 
             } else {
                 // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
-                System.out.println("How many characters will be fighting for each party?\n");
-                Scanner sc = new Scanner(System.in);
-                int numFighters = scanner.nextInt();
+                System.out.println("How many characters will be fighting for each party? Max number = 10\n");
+                int numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
                 firstParty = new ArrayList<>(generateGroup(numFighters));
                 secondParty = new ArrayList<>(generateGroup(numFighters));
 
@@ -65,19 +65,17 @@ public class Main {
 
             System.out.println("Battle has ended!");
             result();
-            scanner.nextLine();
 
-            System.out.println("Wanna see the graveyard? Type Y/N");
-            String graveyardOp = scanner.nextLine();
-            if (graveyardOp.equalsIgnoreCase("y")) {
+            System.out.println("Wanna see the graveyard? Type 1[Yes] / 2[No]");
+            option = Input.getInputNumber(1, 2);
+            if (option == 1) {
                 graveyard();
             }
-            System.out.println("\n Wanna play again? Y/N");
-            String playAgain = scanner.nextLine();
-            if (playAgain.equalsIgnoreCase("n")) {
+            System.out.println("\n Wanna play again? Type 1[Yes] / 2[No]");
+            option = Input.getInputNumber(1, 2);
+            if (option == 2) {
                 System.exit(1);
             }
-            //scanner.close();
         } while (true);
     }
 
@@ -145,7 +143,6 @@ public class Main {
 
             //This continues until one or both parties have no more characters.
         }
-        //sc.close();
     }
 
     public static void combat(Character c1, Character c2) {
@@ -191,79 +188,48 @@ public class Main {
     }
 
     public static ArrayList<Character> createParty(ArrayList<Character> party) {
+        int CharacterNum, option, hp, stamina, strength, mana, intelligence;
+        String fighterName;
 
         // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
-        System.out.println("How many characters will be fighting for this party?");
-        Scanner scanner = new Scanner(System.in);
-        int numFighters = scanner.nextInt();
-        while (numFighters < 1) {
-            System.err.println("You can't create an empty party! Please try again.");
-            numFighters = scanner.nextInt();
-            if (numFighters > MAX_NUM_OF_FIGHTERS) {
-                System.err.println("A party can't have more than " + MAX_NUM_OF_FIGHTERS + " fighters. Please try again.");
-                numFighters = 0;
-            }
-        }
-
+        System.out.println("How many characters will be fighting for this party?  Max number = 10");
+        CharacterNum = Input.getInputNumber(1, 10);
         //Aquí empieza el proceso de creación de los personajes. Primero pedimos si se quiere crear el personaje
         //manualmente, o bien obtener uno generado por el sistema. Ésto dentro de un bucle hasta llegar a la capacidad
         //máxima del grupo.
-        int hp, stamina, strength, mana, intelligence, creationMenu;
 
-        for (int i = 0; i < numFighters; i++) {
+        for (int i = 0; i < CharacterNum; i++) {
             System.out.println("CHARACTER CREATION MENU\n" + "Do you want to create the next character or get a random one?\n" +
                     "1: Create my character.\n" +
                     "2: Random character.\n" +
-                    "Party members: (" + (i + 1) + "/" + numFighters + ")");
-            creationMenu = scanner.nextInt();
-            while (creationMenu != 1 && creationMenu != 2) {
-                System.err.println("Choose a valid option, please.");
-                creationMenu = scanner.nextInt();
-            }
-            String fighterName;
+                    "Party members: (" + (i + 1) + "/" + CharacterNum + ")");
+            option = Input.getInputNumber(1, 2);
             String[] fighterType = {"Warrior", "Wizard"};
-            if (creationMenu == 1) {
-
+            if (option == 1) {
                 // Preguntamos si va a ser Warrior o Wizard
-                // Reutilizamos la variable creationMenu para incluir el tipo de personaje.
+                // Reutilizamos la variable option para incluir el tipo de personaje.
                 System.out.println("Will it be a warrior or a wizard?\n" + "1: Warrior\n" + "2: Wizard\n");
-                creationMenu = scanner.nextInt();
-                while (creationMenu != 1 && creationMenu != 2) {
-                    System.err.println("Choose either Warrior or Wizard, please.");
-                    System.out.println("1: Warrior\n" + "2: Wizard\n");
-                    creationMenu = scanner.nextInt();
-                }
-                scanner.nextLine();
-
+                option = Input.getInputNumber(1, 2);
                 // Determinamos el nombre del personaje
-                do {
-                    System.out.println("Write the name for your " + fighterType[creationMenu - 1] + ".");
-                    fighterName = scanner.nextLine();
-                    if (fighterName.length() < 4 || fighterName.length() > 40)
-                        System.err.println("Characters' name must be between 4 and 40 characters long.");
-                } while (fighterName.length() < 4 || fighterName.length() > 40);
-
+                fighterName = Input.getFighterName(fighterType[option - 1]);
                 // Establecemos la vida
-
-                System.out.println("Set the health points of your " + fighterType[creationMenu - 1] + ".");
-                hp = checkHP(fighterType[creationMenu - 1], scanner.nextInt());
-
+                System.out.println("Set the health points of your " + fighterType[option - 1] + " .");
+                hp = checkHP(fighterType[option - 1], Input.getInputNumber(50, 200));
 
                 // Ahora, según si es Warrior o Wizards, customizamos el resto de stats
-                if (creationMenu == 1) {
-                    System.out.println("Set the stamina of your Warrior");
-                    stamina = checkStamina(scanner.nextInt());
-                    System.out.println("Set the strength of your Warrior");
-                    strength = checkStrength(scanner.nextInt());
-
+                if (option == 1) {
+                    System.out.println("Set the stamina of your Warrior (10 - 50).");
+                    stamina = checkStamina(Input.getInputNumber(10, 50));
+                    System.out.println("Set the strength of your Warrior (1 - 10).");
+                    strength = checkStrength(Input.getInputNumber(1, 10));
                     // Añadimos todos los stats al personaje
                     party.add(new Warrior(i + 1, fighterName, hp, stamina, strength));
                     System.out.println("Warrior created!");
                 } else {
-                    System.out.println("Set the mana of your Wizard");
-                    mana = checkMana(scanner.nextInt());
-                    System.out.println("Set the intelligence of your Wizard");
-                    intelligence = checkIntelligence(scanner.nextInt());
+                    System.out.println("Set the mana of your Wizard (10 - 50).");
+                    mana = checkMana(Input.getInputNumber(10, 50));
+                    System.out.println("Set the intelligence of your Wizard (1 - 50).");
+                    intelligence = checkIntelligence(Input.getInputNumber(1, 50));
                     party.add(new Wizard(i + 1, fighterName, hp, mana, intelligence));
                     System.out.println("Wizard created!");
                 }
@@ -277,53 +243,48 @@ public class Main {
     }
 
     public static int checkHP(String fighterType, int hp) {
-        Scanner scanner = new Scanner(System.in);
         if (fighterType.equals("Warrior")) {
             while (hp < 100 || hp > 200) {
                 System.err.println("The Warriors' HP must be between 100 and 200. Set it again, please.");
-                hp = scanner.nextInt();
+                hp = Input.getInputNumber(100, 200);
             }
         } else {
             while (hp < 50 || hp > 100) {
                 System.err.println("The Wizards' HP must be between 50 and 100. Set it again, please.");
-                hp = scanner.nextInt();
+                hp = Input.getInputNumber(50, 100);
             }
         }
         return hp;
     }
 
     public static int checkStamina(int stamina) {
-        Scanner scanner = new Scanner(System.in);
         while (stamina < 10 || stamina > 50) {
             System.err.println("Stamina must be between 10 and 50. Set it again, please.");
-            stamina = scanner.nextInt();
+            stamina = Input.getInputNumber(10, 50);
         }
         return stamina;
     }
 
     public static int checkStrength(int strength) {
-        Scanner scanner = new Scanner(System.in);
         while (strength < 1 || strength > 10) {
             System.err.println("Strength must be between 1 and 10. Set it again, please.");
-            strength = scanner.nextInt();
+            strength = Input.getInputNumber(1, 10);
         }
         return strength;
     }
 
     public static int checkMana(int mana) {
-        Scanner scanner = new Scanner(System.in);
         while (mana < 10 || mana > 50) {
             System.err.println("Mana must be between 10 and 50. Set it again, please.");
-            mana = scanner.nextInt();
+            mana = Input.getInputNumber(10, 50);
         }
         return mana;
     }
 
     public static int checkIntelligence(int intel) {
-        Scanner scanner = new Scanner(System.in);
         while (intel < 1 || intel > 50) {
             System.err.println("Intelligence must be between 1 and 10. Set it again, please.");
-            intel = scanner.nextInt();
+            intel = Input.getInputNumber(1, 50);
         }
         return intel;
     }
@@ -347,8 +308,8 @@ public class Main {
             character = new Wizard(randomNumber(0, 1000), nameRandom[randomNumber(0, 15)], randomNumber(50, 100), randomNumber(10, 50), randomNumber(1, 50));
         }
 
-        for (int i = 0; i < personajesActuales.size(); i++) {
-            if (character.getName().equals(personajesActuales.get(i) == null ? null : personajesActuales.get(i).getName())) {
+        for (Character personaje : personajesActuales) {
+            if (character.getName().equals(personaje == null ? null : personaje.getName())) {
                 character.setName(character.getName() + " Jr");
                 break;
             }
