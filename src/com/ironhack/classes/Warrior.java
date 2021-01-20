@@ -15,6 +15,7 @@ public class Warrior extends Character implements Attacker {
 
     @Override
     public void attack(Character character) {
+        printAttack();
         if (this.stamina >= 5) {
             System.out.print(getName() + " made a Heavy attack to " + character.getName() + ". ");
             System.out.println(character.getName() + " loses " + (this.strength) + " hp.");
@@ -33,7 +34,7 @@ public class Warrior extends Character implements Attacker {
     //	Se hace un override del método printAvatar de la clase abstracta character
     @Override
     public String printAvatar() {
-
+        System.out.println(ConsoleColors.RED_BOLD);
         for (int i = 1; i <= 5; i++) {
             for (int j = 5; j > i; j--) {
                 System.out.print(" ");
@@ -61,8 +62,8 @@ public class Warrior extends Character implements Attacker {
             else
                 System.out.println("*");
         }
-        System.out.println(ConsoleColors.RED_BACKGROUND + " WARRIOR " + ConsoleColors.RESET);
         System.out.println("=========");
+        System.out.println(" WARRIOR " + ConsoleColors.WHITE_BOLD);
         return getName().toUpperCase() + "\n\n";
 
     }

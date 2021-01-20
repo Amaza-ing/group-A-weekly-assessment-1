@@ -15,6 +15,7 @@ public class Wizard extends Character implements Attacker {
 
     @Override
     public void attack(Character character) {
+        printAttack();
         if (this.mana >= 5) {
             System.out.print(getName() + " casted a fireball to " + character.getName() + ". ");
             System.out.println(character.getName() + " loses " + (this.intelligence) + " hp.");
@@ -33,6 +34,7 @@ public class Wizard extends Character implements Attacker {
     //	Se hace un override del método printAvatar de la clase abstracta character
     @Override
     public String printAvatar() {
+        System.out.println(ConsoleColors.PURPLE_BOLD);
         for (int i = 0; i < 5; i++) {
             for (int j = 5 - i; j > 1; j--) {
                 System.out.print(" ");
@@ -42,8 +44,8 @@ public class Wizard extends Character implements Attacker {
             }
             System.out.println();
         }
-        System.out.println(ConsoleColors.YELLOW_BACKGROUND + " WIZZARD " + ConsoleColors.RESET);
         System.out.println("=========");
+        System.out.println(" WIZZARD " + ConsoleColors.WHITE_BOLD);
         return getName().toUpperCase() + "\n\n";
     }
 

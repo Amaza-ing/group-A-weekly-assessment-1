@@ -16,15 +16,26 @@ public abstract class Character implements Attacker {
         setAlive();
     }
 
-    //	Se llama un método para imprimir el avatar del personaje.
+//    Methods
     public abstract String printAvatar();
 
-    //	Se crea un método para imprimir por pantalla el nombre del ganador.
+    public void printAttack()  {
+        String[] attackLoad = {"Preparing next attack: ","=","=","=","=","=","=",">", " Ready!\n"};
+        System.out.println(ConsoleColors.YELLOW_BOLD);
+        for(int i=0; i<attackLoad.length;i++){
+            System.out.print(attackLoad[i]);
+            try{Thread.sleep(200);
+            }catch (InterruptedException e){
+                System.out.print("Loading...");
+            }
+        }
+        System.out.println(ConsoleColors.WHITE_BOLD);
+    }
     public String printWinner() {
+        System.out.println(ConsoleColors.YELLOW_BOLD+"========================");
+        System.out.println("*** WE HAVE A WINNER ***");
         System.out.println("========================");
-        System.out.println(ConsoleColors.CYAN_BACKGROUND + "*** WE HAVE A WINNER ***" + ConsoleColors.RESET);
-        System.out.println("========================");
-        return ConsoleColors.CYAN_BACKGROUND + getName() + ConsoleColors.RESET + "\n";
+        return "  ***" + getName().toUpperCase() + "***" + ConsoleColors.WHITE_BOLD + "\n";
     }
 
 

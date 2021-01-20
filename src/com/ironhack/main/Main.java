@@ -4,6 +4,8 @@ import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
 import com.ironhack.classes.Wizard;
 import com.ironhack.input.Input;
+import com.ironhack.styles.ConsoleColors;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +26,8 @@ public class Main {
         int option, numFighters;
         boolean automaticBattle = false;
 
+        printStart();
+
         while (true) {
             //se vacían las listas para cada partida
             if(graveyard.size()>0){
@@ -32,7 +36,7 @@ public class Main {
                 graveyard.clear();
                 auxParty.clear();
             }
-            System.out.println("What do you want to do? Insert the number to choose an option.\n" +
+            System.out.println("\nWhat do you want to do? Insert the number to choose an option.\n" +
                     "1: Create your own parties.\n" + "2: Simulate a battle with random parties.\n" +
                     "3: Simulate whole party fight.\n" + "4: Exit the game.\n");
             option = Input.getInputNumber(1, 4);
@@ -385,5 +389,19 @@ public class Main {
 
         sc.close();
         return party;
+    }
+
+    public static void printStart(){
+        int titleLength = 32;
+        System.out.println(ConsoleColors.BLACK_BACKGROUND+ConsoleColors.YELLOW_BOLD);
+        for(int i=0;i<titleLength;i++){
+            System.out.print("*");
+        }
+        System.out.println("\n\n\tWIZARDS VERSUS WARRIORS\n");
+
+        for(int i=0;i<titleLength;i++){
+            System.out.print("*");
+        }
+        System.out.println(ConsoleColors.WHITE_BOLD);
     }
 }
