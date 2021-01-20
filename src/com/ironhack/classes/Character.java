@@ -8,6 +8,7 @@ public abstract class Character implements Attacker {
     private String name;
     private int hp;
     private boolean isAlive;
+    protected boolean used;
 
     public Character(int id, String name, int hp) {
         this.id = id;
@@ -56,6 +57,10 @@ public abstract class Character implements Attacker {
         return isAlive;
     }
 
+    public boolean isUsed() {
+        return used;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -67,5 +72,9 @@ public abstract class Character implements Attacker {
 
     public void setAlive() {
         isAlive = this.hp > 0;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 }

@@ -4,15 +4,10 @@ import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
 import com.ironhack.classes.Wizard;
 import com.ironhack.input.Input;
-import com.ironhack.styles.ConsoleColors;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Main {
 
@@ -20,67 +15,96 @@ public class Main {
     static ArrayList<Character> firstParty;
     static ArrayList<Character> secondParty;
     static ArrayList<Character> graveyard = new ArrayList<>();
-    static ArrayList<Character> auxParty = new ArrayList<>();
 
     public static void main(String[] args) {
         int option, numFighters;
         boolean automaticBattle = false;
 
-        printStart();
-
         while (true) {
             //se vacían las listas para cada partida
-            if(graveyard.size()>0){
+            if (graveyard.size() > 0) {
                 firstParty.clear();
                 secondParty.clear();
                 graveyard.clear();
-                auxParty.clear();
             }
-            System.out.println("\nWhat do you want to do? Insert the number to choose an option.\n" +
-                    "1: Create your own parties.\n" + "2: Simulate a battle with random parties.\n" +
-                    "3: Simulate whole party fight.\n" + "4: Exit the game.\n");
-            option = Input.getInputNumber(1, 4);
-            if (option == 4) {
-                System.out.println("Thanks for playing..See you soon! :)");
-                System.exit(1);
-            } else if (option == 1) {
-                firstParty = new ArrayList<>(createParty(auxParty));
-                auxParty.clear();
-                secondParty = new ArrayList<>(createParty(auxParty));
-            } else if (option == 2){
-                // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
-                System.out.println("How many characters will be fighting for each party? Max number = 10\n");
-                numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
-                firstParty = new ArrayList<>(generateGroup(numFighters));
-                secondParty = new ArrayList<>(generateGroup(numFighters));
-            } else {
-                numFighters = randomNumber(1, MAX_NUM_OF_FIGHTERS);
-                System.out.println("There are: " + numFighters + " characters in each party.");
-                firstParty = new ArrayList<>(generateGroup(numFighters));
-                secondParty = new ArrayList<>(generateGroup(numFighters));
-                automaticBattle = true;
-            }
+            System.out.println("What do you want to do? Insert the number to choose an option.\n" +
+                    "\t1: Create your own parties and pick the character for each round.\n" +
+                    "\t2: Load parties from files and pick the character for each round.\n" +
+                    "\t3: Generate parties randomly and pick the character for each round.\n" +
+                    "\t4: Generate parties randomly and simulate the whole party fight.\n" +
+                    "\t5: Exit the game.\n");
 
-            System.out.println("Parties created. Starting battle!");
-            if (!automaticBattle) {
-                battle(firstParty, secondParty);
+            option = Input.getInputNumber(1, 5);
+
+            switch (option) {
+                case 1:
+                    firstParty = new ArrayList<>(createParty());
+                    secondParty = new ArrayList<>(createParty());
+                    break;
+                case 2:
+                    System.out.println("Type the name of the first file (e.g. 'characters.csv')");
+                    Scanner sc = new Scanner(System.in);
+                    String firstFile = sc.nextLine();
+                    try {
+                        firstParty = importParty(firstFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Type the name of the second file (e.g. 'myTeam.csv')");
+                    String secondFile = sc.nextLine();
+                    try {
+                        secondParty = importParty(secondFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 3:
+                    // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
+                    System.out.println("How many characters will be fighting for each party? Max number = 10\n");
+                    numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
+                    firstParty = new ArrayList<>(generateGroup(numFighters, 0));
+                    secondParty = new ArrayList<>(generateGroup(numFighters, numFighters));
+                    break;
+                case 4:
+                    numFighters = randomNumber(1, MAX_NUM_OF_FIGHTERS);
+                    System.out.println("There are: " + numFighters + " characters in each party.");
+                    firstParty = new ArrayList<>(generateGroup(numFighters, 0));
+                    secondParty = new ArrayList<>(generateGroup(numFighters, numFighters));
+                    automaticBattle = true;
+                    break;
+                case 5:
+                    System.out.println("Thanks for playing..See you soon! :)");
+                    System.exit(1);
+                    break;
+                default:
+                    break;
             }
-            else {
-                automaticBattle(firstParty, secondParty);
-            }
-            System.out.println("Battle has ended!");
-            result();
-            System.out.println("Wanna see the graveyard? Type 1[Yes] / 2[No]");
-            option = Input.getInputNumber(1, 2);
-            if (option == 1) {
-                graveyard();
-            }
-            System.out.println("\nWanna play again? Type 1[Yes] / 2[No]");
-            option = Input.getInputNumber(1, 2);
-            if (option == 2) {
-                System.exit(1);
+            if (firstParty == null || secondParty == null) {
+                System.err.println("Something went wrong creating parties...");
+            } else {
+                System.out.println("Parties created. Starting battle!");
+
+                if (!automaticBattle) {
+                    battle(firstParty, secondParty);
+                } else {
+                    automaticBattle(firstParty, secondParty);
+                }
+                System.out.println("Battle has ended!");
+                result();
+                System.out.println("Wanna see the graveyard? Type 1[Yes] / 2[No]");
+                option = Input.getInputNumber(1, 2);
+                if (option == 1) {
+                    graveyard();
+                }
+                System.out.println("\nWanna play again? Type 1[Yes] / 2[No]");
+                option = Input.getInputNumber(1, 2);
+                if (option == 2) {
+                    System.out.println("Thanks for playing..See you soon! :)");
+                    System.exit(1);
+                }
             }
         }
+
     }
 
     public static void battle(List<Character> firstParty, List<Character> secondParty) {
@@ -94,7 +118,7 @@ public class Main {
             do {
                 System.out.println("Select first opponent by ID: ");
                 for (Character ch : firstParty) {
-                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass().getName() + "]");
+                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
                 int char1 = sc.nextInt();
@@ -121,7 +145,7 @@ public class Main {
             do {
                 System.out.println("Select second opponent by ID: ");
                 for (Character ch : secondParty) {
-                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass().getName() + "]");
+                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
                 int char2 = sc.nextInt();
@@ -152,7 +176,7 @@ public class Main {
     public static void automaticBattle(List<Character> firstParty, List<Character> secondParty) {
         while (firstParty.size() > 0 && secondParty.size() > 0) {
             for (Character ch : firstParty) {
-                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass().getName() + "]");
+                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
             }
             int char1 = randomNumber(0, firstParty.size() - 1);
             System.out.println("Character chosen from first party: " + firstParty.get(char1).getName());
@@ -160,7 +184,7 @@ public class Main {
             System.out.println(opponent1.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
 
             for (Character ch : secondParty) {
-                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + ch.getClass().getName() + "]");
+                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
             }
             int char2 = randomNumber(0, secondParty.size() - 1);
             System.out.println("Character chosen from second party: " + secondParty.get(char2).getName());
@@ -214,8 +238,9 @@ public class Main {
         }
     }
 
-    public static ArrayList<Character> createParty(ArrayList<Character> party) {
+    public static ArrayList<Character> createParty() {
         int CharacterNum, option, hp, stamina, strength, mana, intelligence;
+        ArrayList<Character> party = new ArrayList<>();
         String fighterName;
 
         // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
@@ -228,7 +253,7 @@ public class Main {
         for (int i = 0; i < CharacterNum; i++) {
             System.out.println("CHARACTER CREATION MENU\n" + "Do you want to create the next character or get a random one?\n" +
                     "1: Create my character.\n" +
-                    "2: Random character.\n" +
+                    "2: Get Random character.\n" +
                     "Party members: (" + (i + 1) + "/" + CharacterNum + ")");
             option = Input.getInputNumber(1, 2);
             String[] fighterType = {"Warrior", "Wizard"};
@@ -261,8 +286,8 @@ public class Main {
                     System.out.println("Wizard created!");
                 }
             } else {
-                // PERSONAJES GENERADOS ALEATORIAMENTE. IMPLEMENTAR EL GENERADOR DE CAROLINA.
-                party.add(generateRandomCharacter(party));
+                // Randomly generated characters.
+                party.add(generateRandomCharacter(party, i+1));
             }
         }
 
@@ -316,23 +341,23 @@ public class Main {
         return intel;
     }
 
-    public static List<Character> generateGroup(int quantity) {
+    public static List<Character> generateGroup(int quantity, int index) {
         List<Character> characters = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
-            characters.add(generateRandomCharacter(characters));
+            characters.add(generateRandomCharacter(characters, i+index));
         }
         return characters;
     }
 
-    public static Character generateRandomCharacter(List<Character> personajesActuales) {
+    public static Character generateRandomCharacter(List<Character> personajesActuales, int id) {
 
         String[] nameRandom = {"Legolas", "Darth Vader", "Mark Zuckerberg", "Harry Potter", "Voldemort", "Víctor Cardozo", "Arnoldo Sicilia", "Xabier García", "Steve Jobs", "Thanos", "Donald Trump", "Spider-Man", "Varian Wrynn", "Sylvanas", "Putin", "Kim Jong-un"};
         Character character;
 
         if (randomNumber(0, 1) == 0) {
-            character = new Warrior(randomNumber(0, 1000), nameRandom[randomNumber(0, 15)], randomNumber(100, 200), randomNumber(10, 50), randomNumber(1, 10));
+            character = new Warrior(id, nameRandom[randomNumber(0, 15)], randomNumber(100, 200), randomNumber(10, 50), randomNumber(1, 10));
         } else {
-            character = new Wizard(randomNumber(0, 1000), nameRandom[randomNumber(0, 15)], randomNumber(50, 100), randomNumber(10, 50), randomNumber(1, 50));
+            character = new Wizard(id, nameRandom[randomNumber(0, 15)], randomNumber(50, 100), randomNumber(10, 50), randomNumber(1, 50));
         }
 
         for (Character personaje : personajesActuales) {
@@ -344,64 +369,58 @@ public class Main {
         return character;
     }
 
-    public static int randomNumber(int min, int max) {
+    private static int randomNumber(int min, int max) {
         return (int) (Math.random() * ((max - min) + 1));
+    }
+
+    private static String getType(Character character) {
+        String type;
+        if (character.getClass() == Warrior.class)
+            type = "Warrior";
+        else
+            type = "Wizard";
+        return type;
     }
 
     //Import a party passing as a parameter the name of the CSV file, e.g. "myBestTeam.csv"
     //The file must be located in the "Resources" folder.
-    public static List<Character> importParty(String filename) throws IOException {
-        List<Character> party = new ArrayList<>();
-        String filePath = "com/ironhack/resources/" + filename;
+    public static ArrayList<Character> importParty(String filename) throws IOException {
+        ArrayList<Character> party = new ArrayList<>();
+        String filePath = "src/com/ironhack/resources/" + filename;
         File file = new File(filePath);
 
         if (!file.exists()) {
             System.err.println("File not found, check the spelling");
             return null;
         }
-
         Scanner sc = new Scanner(file);
         sc.nextLine();
+        ArrayList<String[]> characterValues = new ArrayList<>();
         while (sc.hasNextLine()) {
-            List<String[]> characterValues = new ArrayList<>();
             characterValues.add(sc.nextLine().split(","));
-
-            if (Arrays.toString(characterValues.get(0)).equalsIgnoreCase("warrior")) {
+        }
+        for (String[] characterValue : characterValues) {
+            if (characterValue[0].equalsIgnoreCase("warrior")) {
                 Warrior warrior = new Warrior(
-                        Integer.parseInt(Arrays.toString(characterValues.get(1))),
-                        Arrays.toString(characterValues.get(2)),
-                        Integer.parseInt(Arrays.toString(characterValues.get(3))),
-                        Integer.parseInt(Arrays.toString(characterValues.get(4))),
-                        Integer.parseInt(Arrays.toString(characterValues.get(5)))
+                        Integer.parseInt(characterValue[1].trim()),
+                        characterValue[2],
+                        Integer.parseInt(characterValue[3].trim()),
+                        Integer.parseInt(characterValue[4].trim()),
+                        Integer.parseInt(characterValue[5].trim())
                 );
                 party.add(warrior);
             } else {
                 Wizard wizard = new Wizard(
-                        Integer.parseInt(Arrays.toString(characterValues.get(1))),
-                        Arrays.toString(characterValues.get(2)),
-                        Integer.parseInt(Arrays.toString(characterValues.get(3))),
-                        Integer.parseInt(Arrays.toString(characterValues.get(4))),
-                        Integer.parseInt(Arrays.toString(characterValues.get(5)))
+                        Integer.parseInt(characterValue[1].trim()),
+                        characterValue[2],
+                        Integer.parseInt(characterValue[3].trim()),
+                        Integer.parseInt(characterValue[4].trim()),
+                        Integer.parseInt(characterValue[5].trim())
                 );
                 party.add(wizard);
             }
         }
-
         sc.close();
         return party;
-    }
-
-    public static void printStart(){
-        int titleLength = 32;
-        System.out.println(ConsoleColors.BLACK_BACKGROUND+ConsoleColors.YELLOW_BOLD);
-        for(int i=0;i<titleLength;i++){
-            System.out.print("*");
-        }
-        System.out.println("\n\n\tWIZARDS VERSUS WARRIORS\n");
-
-        for(int i=0;i<titleLength;i++){
-            System.out.print("*");
-        }
-        System.out.println(ConsoleColors.WHITE_BOLD);
     }
 }

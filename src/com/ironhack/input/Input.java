@@ -10,7 +10,7 @@ public class Input {
 		int		result = 0;
 
 		while (str.length() < 1) {
-			System.out.println("Write a number");
+			System.out.println("Type a number");
 			str = scanner.nextLine();
 			try {
 				result = Integer.parseInt(str);
@@ -20,7 +20,7 @@ public class Input {
 				}
 			}
 			catch (NumberFormatException e) {
-				System.out.println("You must write a number.");
+				System.out.println("You must type a number.");
 				str = "";
 			}
 			catch (Exception e) {
