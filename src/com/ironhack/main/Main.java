@@ -4,6 +4,7 @@ import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
 import com.ironhack.classes.Wizard;
 import com.ironhack.input.Input;
+import com.ironhack.styles.ConsoleColors;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,8 @@ public class Main {
     public static void main(String[] args) {
         int option, numFighters;
         boolean automaticBattle = false;
+
+        printStart();
 
         while (true) {
             //se vacían las listas para cada partida
@@ -422,5 +425,19 @@ public class Main {
         }
         sc.close();
         return party;
+    }
+
+    public static void printStart(){
+        int titleLength = 32;
+        System.out.println(ConsoleColors.YELLOW_BOLD);
+        for(int i=0;i<titleLength;i++){
+            System.out.print("*");
+        }
+        System.out.println("\n\n\tWIZARDS VERSUS WARRIORS\n");
+
+        for(int i=0;i<titleLength;i++){
+            System.out.print("*");
+        }
+        System.out.println(ConsoleColors.WHITE_BOLD);
     }
 }
