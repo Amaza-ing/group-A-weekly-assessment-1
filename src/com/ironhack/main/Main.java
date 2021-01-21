@@ -65,14 +65,14 @@ public class Main {
                     // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
                     System.out.println("How many characters will be fighting for each party? Max number = 10\n");
                     numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
-                    firstParty = new ArrayList<>(generateGroup(numFighters, 0));
-                    secondParty = new ArrayList<>(generateGroup(numFighters, numFighters));
+                    firstParty = new ArrayList<>(generateGroup(numFighters, 1));
+                    secondParty = new ArrayList<>(generateGroup(numFighters, 1));
                     break;
                 case 4:
                     numFighters = randomNumber(1, MAX_NUM_OF_FIGHTERS);
                     System.out.println("There are: " + numFighters + " characters in each party.");
-                    firstParty = new ArrayList<>(generateGroup(numFighters, 0));
-                    secondParty = new ArrayList<>(generateGroup(numFighters, numFighters));
+                    firstParty = new ArrayList<>(generateGroup(numFighters, 1));
+                    secondParty = new ArrayList<>(generateGroup(numFighters, 1));
                     automaticBattle = true;
                     break;
                 case 5:
