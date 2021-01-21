@@ -133,4 +133,14 @@ public class Battle {
 			type = "Wizard";
 		return type;
 	}
+
+	public static void result() {
+		if (Init.firstParty.size() == 0 && Init.secondParty.size() == 0) {
+			System.out.println("\nParty crasher!! Everyone's dead. Nobody wins.\n");
+		} else if (Init.firstParty.size() == 0) {
+			System.out.println("\nParty 2 wins!\n");
+		} else {
+			System.out.println("\nParty 1 wins!\n");
+		}
+	}
 }
