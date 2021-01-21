@@ -1,5 +1,6 @@
 package com.ironhack.main;
 
+import com.ironhack.battle.Battle;
 import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
 import com.ironhack.classes.Wizard;
@@ -17,11 +18,6 @@ import java.util.*;
 public class Main {
 
     static final int MAX_NUM_OF_FIGHTERS = 10;
-    static ArrayList<Character> firstParty;
-    static ArrayList<Character> originalFirstParty;
-    static ArrayList<Character> secondParty;
-    static ArrayList<Character> originalSecondParty;
-    static ArrayList<Character> graveyard = new ArrayList<>();
 
     public static void main(String[] args) {
         int option, numFighters;
@@ -31,10 +27,8 @@ public class Main {
         Start.printStart();
         while (true) {
             //se vacían las listas para cada partida
-            if (graveyard.size() > 0) {
-                firstParty.clear();
-                secondParty.clear();
-                graveyard.clear();
+            if (Init.getGraveyard().size() > 0) {
+                Init.clear();
             }
             System.out.println("What do you want to do? Insert the number to choose an option.\n" +
                     "\t1: Create your own parties and pick the character for each round.\n" +
@@ -47,22 +41,22 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    firstParty = new ArrayList<>(createParty());
-                    secondParty = new ArrayList<>(createParty());
+                    Init.firstParty = new ArrayList<>(createParty());
+                    Init.secondParty = new ArrayList<>(createParty());
                     break;
                 case 2:
                     System.out.println("Type the name of the first file (e.g. 'characters.csv')");
                     Scanner sc = new Scanner(System.in);
                     String firstFile = sc.nextLine();
                     try {
-                        firstParty = importParty(firstFile);
+                        Init.firstParty = importParty(firstFile);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     System.out.println("Type the name of the second file (e.g. 'myTeam.csv')");
                     String secondFile = sc.nextLine();
                     try {
-                        secondParty = importParty(secondFile);
+                        Init.secondParty = importParty(secondFile);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -71,14 +65,14 @@ public class Main {
                     // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
                     System.out.println("How many characters will be fighting for each party? Max number = 10\n");
                     numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
-                    firstParty = new ArrayList<>(generateGroup(numFighters, 1));
-                    secondParty = new ArrayList<>(generateGroup(numFighters, 1));
+                    Init.firstParty = new ArrayList<>(generateGroup(numFighters, 1));
+                    Init.secondParty = new ArrayList<>(generateGroup(numFighters, 1));
                     break;
                 case 4:
                     numFighters = RandomGenerator.randomNumber(1, MAX_NUM_OF_FIGHTERS);
                     System.out.println("There are: " + numFighters + " characters in each party.");
-                    firstParty = new ArrayList<>(generateGroup(numFighters, 1));
-                    secondParty = new ArrayList<>(generateGroup(numFighters, 1));
+                    Init.firstParty = new ArrayList<>(generateGroup(numFighters, 1));
+                    Init.secondParty = new ArrayList<>(generateGroup(numFighters, 1));
                     automaticBattle = true;
                     break;
                 case 5:
@@ -88,18 +82,18 @@ public class Main {
                 default:
                     break;
             }
-            if (firstParty == null || secondParty == null) {
+            if (Init.firstParty == null || Init.secondParty == null) {
                 System.err.println("Something went wrong creating parties...");
             } else {
                 System.out.println("Parties created. Starting battle!");
                 //The "originals" save the parties in case the user decides to save the winner team into a .csv file
-                originalFirstParty = new ArrayList<Character>(firstParty) ;
-                originalSecondParty = new ArrayList<Character>(secondParty);
+                Init.originalFirstParty = new ArrayList<Character>(Init.firstParty) ;
+                Init.originalSecondParty = new ArrayList<Character>(Init.secondParty);
 
                 if (!automaticBattle) {
-                    battle(firstParty, secondParty);
+                    Battle.battle(Init.firstParty, Init.secondParty);
                 } else {
-                    automaticBattle(firstParty, secondParty);
+                    Battle.automaticBattle(Init.firstParty, Init.secondParty);
                 }
                 System.out.println("Battle has ended!");
                 result();
@@ -109,7 +103,7 @@ public class Main {
                     graveyard();
                 }
                 //If one team has won, user can export the winning team to a .csv file
-                if (firstParty.size() != 0 || secondParty.size() != 0) {
+                if (Init.firstParty.size() != 0 || Init.secondParty.size() != 0) {
                     System.out.println("Wanna export the winner team to a file? Type 1[Yes] / 2[No]");
                     option = Input.getInputNumber(1, 2);
                     if (option == 1)
@@ -126,125 +120,10 @@ public class Main {
 
     }
 
-    public static void battle(List<Character> firstParty, List<Character> secondParty) {
-        while (firstParty.size() > 0 && secondParty.size() > 0) {
-            int IdChar1 = 0;
-            int IdChar2 = 0;
-            int size1 = firstParty.size();
-            int size2 = secondParty.size();
-            boolean selectOk = false;
-
-            //The user can pick one opponent of each party using the IDs
-            do {
-                System.out.println("Select first opponent by ID: ");
-                for (Character ch : firstParty) {
-                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
-                }
-
-                int char1 = Input.getInputNumber(1, originalFirstParty.size());
-                for (Character ch : firstParty) {
-                    if (ch.getId() == char1) {
-                        IdChar1 = ch.getId();
-                        selectOk = true;
-                    }
-                }
-                if (!selectOk) {
-                    System.err.println("Wrong ID!!!");
-                }
-            } while (!selectOk);
-
-            //Se busca el personaje y se muestra con su avatar
-            int firstChar = IdChar1;
-            Character opponent1 = firstParty.stream().
-                    filter(x -> x.getId() == firstChar).
-                    findFirst().get();
-            System.out.println(opponent1.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
-
-
-            selectOk = false;
-            do {
-                System.out.println("Select second opponent by ID: ");
-                for (Character ch : secondParty) {
-                    System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
-                }
-
-                int char2 = Input.getInputNumber(1, originalSecondParty.size());
-                for (Character ch : secondParty) {
-                    if (ch.getId() == char2) {
-                        IdChar2 = ch.getId();
-                        selectOk = true;
-                    }
-                }
-                if (!selectOk) {
-                    System.err.println("Wrong ID!!!");
-                }
-            } while (!selectOk);
-
-            int secondChar = IdChar2;
-            Character opponent2 = secondParty.stream().
-                    filter(x -> x.getId() == secondChar).
-                    findFirst().get();
-            System.out.println(opponent2.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
-
-            //The two opponents get in combat until one or both are dead
-            combat(opponent1, opponent2);
-
-            //This continues until one or both parties have no more characters.
-        }
-    }
-
-    public static void automaticBattle(List<Character> firstParty, List<Character> secondParty) {
-        while (firstParty.size() > 0 && secondParty.size() > 0) {
-            for (Character ch : firstParty) {
-                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
-            }
-            int char1 = RandomGenerator.randomNumber(0, firstParty.size() - 1);
-            System.out.println("Character chosen from first party: " + firstParty.get(char1).getName());
-            Character opponent1 = firstParty.get(char1);
-            System.out.println(opponent1.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
-
-            for (Character ch : secondParty) {
-                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
-            }
-            int char2 = RandomGenerator.randomNumber(0, secondParty.size() - 1);
-            System.out.println("Character chosen from second party: " + secondParty.get(char2).getName());
-            Character opponent2 = secondParty.get(char2);
-            System.out.println(opponent2.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
-
-            //The two opponents get in combat until one or both are dead
-            combat(opponent1, opponent2);
-        }
-    }
-
-    public static void combat(Character c1, Character c2) {
-        while (c1.isAlive() && c2.isAlive()) {
-            c1.attack(c2);
-            c2.attack(c1);
-            System.out.println(c1.getName() + " has: " + c1.getHp() + " hp.");
-            System.out.println(c2.getName() + " has: " + c2.getHp() + " hp.\n");
-        }
-        if (!c1.isAlive() && !c2.isAlive()) {
-            System.out.println("Both of them are dead. It's a tie!\n");
-            graveyard.add(c1);
-            graveyard.add(c2);
-            firstParty.remove(c1);
-            secondParty.remove(c2);
-        } else if (c1.isAlive()) {
-            System.out.println(c1.printWinner() + c2.getName() + " is dead. " + c1.getName() + " wins!\n");
-            graveyard.add(c2);
-            secondParty.remove(c2);
-
-        } else {
-            System.out.println(c2.printWinner() + c1.getName() + " is dead. " + c2.getName() + " wins!\n");
-            graveyard.add(c1);
-            firstParty.remove(c1);
-        }
-    }
-
     public static void result() {
-        if (firstParty.size() == 0 && secondParty.size() == 0) {
+        if (Init.firstParty.size() == 0 && Init.secondParty.size() == 0) {
             System.out.println("\nParty crasher!! Everyone's dead. Nobody wins.\n");
-        } else if (firstParty.size() == 0) {
+        } else if (Init.firstParty.size() == 0) {
             System.out.println("\nParty 2 wins!\n");
         } else {
             System.out.println("\nParty 1 wins!\n");
@@ -253,7 +132,7 @@ public class Main {
 
     public static void graveyard() {
         System.out.println("Rest in peace:\n");
-        for (Character i : graveyard) {
+        for (Character i : Init.graveyard) {
             System.out.println(i.getName() + ".");
         }
     }
@@ -323,16 +202,6 @@ public class Main {
         return characters;
     }
 
-    //Returns the class name of a Character as a String
-    private static String getType(Character character) {
-        String type;
-        if (character.getClass() == Warrior.class)
-            type = "Warrior";
-        else
-            type = "Wizard";
-        return type;
-    }
-
     //Import a party passing as a parameter the name of the CSV file, e.g. "myBestTeam.csv"
     //The file must be located in the "Resources" folder.
     public static ArrayList<Character> importParty(String filename) throws IOException {
@@ -377,7 +246,7 @@ public class Main {
 
     //Export the party to an importable CSV file. The file gets stored in the "Resources" folder
     public static void savePartyToFile() {
-        ArrayList<Character> winners = firstParty.size() == 0 ? originalSecondParty : originalFirstParty;
+        ArrayList<Character> winners = Init.firstParty.size() == 0 ? Init.originalSecondParty : Init.originalFirstParty;
 
         String fileName = Input.getFileName();
         String filePath = "src/com/ironhack/resources/" + fileName + ".csv";
@@ -385,9 +254,9 @@ public class Main {
             FileWriter fw = new FileWriter(filePath, false);
             fw.write("\"Type\", \"id\", \"Name\", \"HP\", \"Stamina/Mana\", \"Strength/Intelligence\"\n");
             for (int i = 0; i < winners.size(); i++) {
-                if (getType(winners.get(i)).equals("Warrior")) {
+                if (Battle.getType(winners.get(i)).equals("Warrior")) {
                     Warrior winner = (Warrior) winners.get(i);
-                    fw.write("\"" + getType(winners.get(i)) + "\"" + ", "
+                    fw.write("\"" + Battle.getType(winners.get(i)) + "\"" + ", "
                             + winner.getId() + ", "
                             + winner.getName() + ", "
                             + winner.getHp() + ", "
@@ -395,7 +264,7 @@ public class Main {
                             + winner.getStrength() + "\n");
                 } else {
                     Wizard winner = (Wizard) winners.get(i);
-                    fw.write("\"" + getType(winners.get(i)) + "\"" + ", "
+                    fw.write("\"" + Battle.getType(winners.get(i)) + "\"" + ", "
                             + winner.getId() + ", "
                             + winner.getName() + ", "
                             + winner.getHp() + ", "
