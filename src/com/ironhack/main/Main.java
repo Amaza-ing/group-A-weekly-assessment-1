@@ -4,6 +4,7 @@ import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
 import com.ironhack.classes.Wizard;
 import com.ironhack.generator.Checker;
+import com.ironhack.generator.RandomGenerator;
 import com.ironhack.input.Input;
 import com.ironhack.styles.ConsoleColors;
 
@@ -70,7 +71,7 @@ public class Main {
                     secondParty = new ArrayList<>(generateGroup(numFighters, 1));
                     break;
                 case 4:
-                    numFighters = randomNumber(1, MAX_NUM_OF_FIGHTERS);
+                    numFighters = RandomGenerator.randomNumber(1, MAX_NUM_OF_FIGHTERS);
                     System.out.println("There are: " + numFighters + " characters in each party.");
                     firstParty = new ArrayList<>(generateGroup(numFighters, 1));
                     secondParty = new ArrayList<>(generateGroup(numFighters, 1));
@@ -181,7 +182,7 @@ public class Main {
             for (Character ch : firstParty) {
                 System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
             }
-            int char1 = randomNumber(0, firstParty.size() - 1);
+            int char1 = RandomGenerator.randomNumber(0, firstParty.size() - 1);
             System.out.println("Character chosen from first party: " + firstParty.get(char1).getName());
             Character opponent1 = firstParty.get(char1);
             System.out.println(opponent1.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
@@ -189,7 +190,7 @@ public class Main {
             for (Character ch : secondParty) {
                 System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
             }
-            int char2 = randomNumber(0, secondParty.size() - 1);
+            int char2 = RandomGenerator.randomNumber(0, secondParty.size() - 1);
             System.out.println("Character chosen from second party: " + secondParty.get(char2).getName());
             Character opponent2 = secondParty.get(char2);
             System.out.println(opponent2.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
@@ -290,7 +291,7 @@ public class Main {
                 }
             } else {
                 // Randomly generated characters.
-                party.add(generateRandomCharacter(party, i+1));
+                party.add(RandomGenerator.generateRandomCharacter(party, i+1));
             }
         }
         return party;
@@ -299,33 +300,9 @@ public class Main {
     public static List<Character> generateGroup(int quantity, int index) {
         List<Character> characters = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
-            characters.add(generateRandomCharacter(characters, i+index));
+            characters.add(RandomGenerator.generateRandomCharacter(characters, i+index));
         }
         return characters;
-    }
-
-    public static Character generateRandomCharacter(List<Character> personajesActuales, int id) {
-
-        String[] nameRandom = {"Legolas", "Darth Vader", "Mark Zuckerberg", "Harry Potter", "Voldemort", "Víctor Cardozo", "Arnoldo Sicilia", "Xabier García", "Steve Jobs", "Thanos", "Donald Trump", "Spider-Man", "Varian Wrynn", "Sylvanas", "Putin", "Kim Jong-un"};
-        Character character;
-
-        if (randomNumber(0, 1) == 0) {
-            character = new Warrior(id, nameRandom[randomNumber(0, 15)], randomNumber(100, 200), randomNumber(10, 50), randomNumber(1, 10));
-        } else {
-            character = new Wizard(id, nameRandom[randomNumber(0, 15)], randomNumber(50, 100), randomNumber(10, 50), randomNumber(1, 50));
-        }
-
-        for (Character personaje : personajesActuales) {
-            if (character.getName().equals(personaje == null ? null : personaje.getName())) {
-                character.setName(character.getName() + " Jr");
-                break;
-            }
-        }
-        return character;
-    }
-
-    private static int randomNumber(int min, int max) {
-        return (int) (Math.random() * ((max - min) + 1));
     }
 
     private static String getType(Character character) {

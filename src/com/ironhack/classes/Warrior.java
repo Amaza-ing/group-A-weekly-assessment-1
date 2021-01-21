@@ -33,9 +33,9 @@ public class Warrior extends Character implements Attacker {
     @Override
     public void attack(Character character) {
         printAttack();
-        if (!this.used) {
+        if (!isUsed()) {
             int randomNum = (int) (Math.random() * (20));
-            if (randomNum == 20) {
+            if (randomNum == 19) {
                 enhancedAttack(character);
             }
         }
