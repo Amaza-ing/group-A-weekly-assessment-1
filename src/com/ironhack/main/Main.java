@@ -92,8 +92,8 @@ public class Main {
             } else {
                 System.out.println("Parties created. Starting battle!");
                 //The "originals" save the parties in case the user decides to save the winner team into a .csv file
-                originalFirstParty = firstParty;
-                originalSecondParty = secondParty;
+                originalFirstParty = new ArrayList<Character>(firstParty) ;
+                originalSecondParty = new ArrayList<Character>(secondParty);
 
                 if (!automaticBattle) {
                     battle(firstParty, secondParty);
