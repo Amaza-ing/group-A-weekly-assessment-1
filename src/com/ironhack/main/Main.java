@@ -257,6 +257,7 @@ public class Main {
         }
     }
 
+    //Creates a party, both manually or with auto-generated characters
     public static ArrayList<Character> createParty() {
         int CharacterNum, option, hp, stamina, strength, mana, intelligence;
         ArrayList<Character> party = new ArrayList<>();
@@ -312,6 +313,7 @@ public class Main {
         return party;
     }
 
+    //Generates a group of random characters of a certain size
     public static List<Character> generateGroup(int quantity, int index) {
         List<Character> characters = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
@@ -320,6 +322,7 @@ public class Main {
         return characters;
     }
 
+    //Returns the class name of a Character as a String
     private static String getType(Character character) {
         String type;
         if (character.getClass() == Warrior.class)
