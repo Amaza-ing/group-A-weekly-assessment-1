@@ -16,7 +16,7 @@ public class Warrior extends Character implements Attacker {
 
     //An enhanced attack consumes 7 points of stamina to deal 30% more damage on hit. It works the same way the heavy
     //attack does, it just deals more damage, consumes more stamina, and can only be casted ONCE!
-    public void enhancedAttack(Character character) {
+    private void enhancedAttack(Character character) {
 
         if (this.stamina >= 7) {
             System.out.print(getName() + " made an Enhanced Attack to " + character.getName() + ". ");
@@ -33,6 +33,12 @@ public class Warrior extends Character implements Attacker {
     @Override
     public void attack(Character character) {
         printAttack();
+        if (!this.used) {
+            int randomNum = (int) (Math.random() * (20));
+            if (randomNum == 20) {
+                enhancedAttack(character);
+            }
+        }
         if (this.stamina >= 5) {
             System.out.print(getName() + " made a Heavy attack to " + character.getName() + ". ");
             System.out.println(character.getName() + " loses " + (this.strength) + " hp.");
