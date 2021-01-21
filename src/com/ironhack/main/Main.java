@@ -130,6 +130,8 @@ public class Main {
         while (firstParty.size() > 0 && secondParty.size() > 0) {
             int IdChar1 = 0;
             int IdChar2 = 0;
+            int size1 = firstParty.size();
+            int size2 = secondParty.size();
             boolean selectOk = false;
 
             //The user can pick one opponent of each party using the IDs
@@ -139,7 +141,7 @@ public class Main {
                     System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
-                int char1 = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
+                int char1 = Input.getInputNumber(1, originalFirstParty.size());
                 for (Character ch : firstParty) {
                     if (ch.getId() == char1) {
                         IdChar1 = ch.getId();
@@ -166,7 +168,7 @@ public class Main {
                     System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
-                int char2 = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
+                int char2 = Input.getInputNumber(1, originalSecondParty.size());
                 for (Character ch : secondParty) {
                     if (ch.getId() == char2) {
                         IdChar2 = ch.getId();
@@ -256,6 +258,7 @@ public class Main {
         }
     }
 
+    //Creates a party, both manually or with auto-generated characters
     public static ArrayList<Character> createParty() {
         int CharacterNum, option, hp, stamina, strength, mana, intelligence;
         ArrayList<Character> party = new ArrayList<>();
@@ -311,6 +314,7 @@ public class Main {
         return party;
     }
 
+    //Generates a group of random characters of a certain size
     public static List<Character> generateGroup(int quantity, int index) {
         List<Character> characters = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
@@ -319,6 +323,7 @@ public class Main {
         return characters;
     }
 
+    //Returns the class name of a Character as a String
     private static String getType(Character character) {
         String type;
         if (character.getClass() == Warrior.class)
@@ -370,6 +375,7 @@ public class Main {
         return party;
     }
 
+    //Export the party to an importable CSV file. The file gets stored in the "Resources" folder
     public static void savePartyToFile() {
         ArrayList<Character> winners = firstParty.size() == 0 ? originalSecondParty : originalFirstParty;
 
