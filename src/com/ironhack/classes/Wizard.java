@@ -38,7 +38,7 @@ public class Wizard extends Character implements Attacker {
         printAttack();
         if (!isUsed()) {
             int randomNum = (int) (Math.random() * (20));
-            if (randomNum == 20) {
+            if (randomNum == 19) {
                 restoreHealth();
             }
         }
