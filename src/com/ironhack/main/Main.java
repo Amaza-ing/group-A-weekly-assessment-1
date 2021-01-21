@@ -22,7 +22,7 @@ public class Main {
 //      The printStart method prints a header for the game before launching the initial menu.
         Start.printStart();
         while (true) {
-//          All the array lists are emptied before starting a new match
+//          All the array lists are emptied before starting a new match.
             if (Init.getGraveyard().size() > 0) {
                 Init.clear();
             }
