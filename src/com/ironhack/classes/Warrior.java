@@ -54,7 +54,8 @@ public class Warrior extends Character implements Attacker {
         }
     }
 
-    //	Se hace un override del método printAvatar de la clase abstracta character
+//    The method printAvatar in the abstract class Character is overridden below.
+//    The method prints a symbol for the warrior using a for loop and uses the getName method to call the selected character name.
     @Override
     public String printAvatar() {
         System.out.println(ConsoleColors.RED_BOLD);

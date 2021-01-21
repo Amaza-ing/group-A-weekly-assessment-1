@@ -56,7 +56,8 @@ public class Wizard extends Character implements Attacker {
         }
     }
 
-    //	Se hace un override del método printAvatar de la clase abstracta character
+//    The method printAvatar in the abstract class Character is overridden below.
+//    The method below prints a symbol for the wizard using a for loop and uses the getName method to call the selected character name.
     @Override
     public String printAvatar() {
         System.out.println(ConsoleColors.PURPLE_BOLD);

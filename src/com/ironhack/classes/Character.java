@@ -18,8 +18,10 @@ public abstract class Character implements Attacker {
     }
 
 //    Methods
+//    The print avatar method is defined in the child classes Warrior and Wizard.
     public abstract String printAvatar();
 
+//    The following method simulates a loading process for attacks. It forces the computer thread to sleep between for prints.
     public void printAttack()  {
         String[] attackLoad = {"Preparing next attack: ","=","=","=","=","=","=",">", " Ready!\n"};
         System.out.println(ConsoleColors.YELLOW_BOLD);
@@ -32,6 +34,8 @@ public abstract class Character implements Attacker {
         }
         System.out.println(ConsoleColors.WHITE_BOLD);
     }
+
+//    The following method prints a header and uses the getName method to print the winners name:
     public String printWinner() {
         System.out.println(ConsoleColors.YELLOW_BOLD+"========================");
         System.out.println("*** WE HAVE A WINNER ***");
