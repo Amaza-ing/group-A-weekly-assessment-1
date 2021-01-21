@@ -3,6 +3,7 @@ package com.ironhack.main;
 import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
 import com.ironhack.classes.Wizard;
+import com.ironhack.generator.Checker;
 import com.ironhack.input.Input;
 import com.ironhack.styles.ConsoleColors;
 
@@ -268,22 +269,22 @@ public class Main {
                 fighterName = Input.getFighterName(fighterType[option - 1]);
                 // Establecemos la vida
                 System.out.println("Set the health points of your " + fighterType[option - 1] + " .");
-                hp = checkHP(fighterType[option - 1], Input.getInputNumber(50, 200));
+                hp = Checker.checkHP(fighterType[option - 1], Input.getInputNumber(50, 200));
 
                 // Ahora, según si es Warrior o Wizards, customizamos el resto de stats
                 if (option == 1) {
                     System.out.println("Set the stamina of your Warrior (10 - 50).");
-                    stamina = checkStamina(Input.getInputNumber(10, 50));
+                    stamina = Checker.checkStamina(Input.getInputNumber(10, 50));
                     System.out.println("Set the strength of your Warrior (1 - 10).");
-                    strength = checkStrength(Input.getInputNumber(1, 10));
+                    strength = Checker.checkStrength(Input.getInputNumber(1, 10));
                     // Añadimos todos los stats al personaje
                     party.add(new Warrior(i + 1, fighterName, hp, stamina, strength));
                     System.out.println("Warrior created!");
                 } else {
                     System.out.println("Set the mana of your Wizard (10 - 50).");
-                    mana = checkMana(Input.getInputNumber(10, 50));
+                    mana = Checker.checkMana(Input.getInputNumber(10, 50));
                     System.out.println("Set the intelligence of your Wizard (1 - 50).");
-                    intelligence = checkIntelligence(Input.getInputNumber(1, 50));
+                    intelligence = Checker.checkIntelligence(Input.getInputNumber(1, 50));
                     party.add(new Wizard(i + 1, fighterName, hp, mana, intelligence));
                     System.out.println("Wizard created!");
                 }
@@ -292,55 +293,7 @@ public class Main {
                 party.add(generateRandomCharacter(party, i+1));
             }
         }
-
         return party;
-    }
-
-    public static int checkHP(String fighterType, int hp) {
-        if (fighterType.equals("Warrior")) {
-            while (hp < 100 || hp > 200) {
-                System.err.println("The Warriors' HP must be between 100 and 200. Set it again, please.");
-                hp = Input.getInputNumber(100, 200);
-            }
-        } else {
-            while (hp < 50 || hp > 100) {
-                System.err.println("The Wizards' HP must be between 50 and 100. Set it again, please.");
-                hp = Input.getInputNumber(50, 100);
-            }
-        }
-        return hp;
-    }
-
-    public static int checkStamina(int stamina) {
-        while (stamina < 10 || stamina > 50) {
-            System.err.println("Stamina must be between 10 and 50. Set it again, please.");
-            stamina = Input.getInputNumber(10, 50);
-        }
-        return stamina;
-    }
-
-    public static int checkStrength(int strength) {
-        while (strength < 1 || strength > 10) {
-            System.err.println("Strength must be between 1 and 10. Set it again, please.");
-            strength = Input.getInputNumber(1, 10);
-        }
-        return strength;
-    }
-
-    public static int checkMana(int mana) {
-        while (mana < 10 || mana > 50) {
-            System.err.println("Mana must be between 10 and 50. Set it again, please.");
-            mana = Input.getInputNumber(10, 50);
-        }
-        return mana;
-    }
-
-    public static int checkIntelligence(int intel) {
-        while (intel < 1 || intel > 50) {
-            System.err.println("Intelligence must be between 1 and 10. Set it again, please.");
-            intel = Input.getInputNumber(1, 50);
-        }
-        return intel;
     }
 
     public static List<Character> generateGroup(int quantity, int index) {
