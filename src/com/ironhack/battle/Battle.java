@@ -75,6 +75,30 @@ public class Battle {
 		}
 	}
 
+	public static void combat(Character c1, Character c2) {
+		while (c1.isAlive() && c2.isAlive()) {
+			c1.attack(c2);
+			c2.attack(c1);
+			System.out.println(c1.getName() + " has: " + c1.getHp() + " hp.");
+			System.out.println(c2.getName() + " has: " + c2.getHp() + " hp.\n");
+		}
+		if (!c1.isAlive() && !c2.isAlive()) {
+			System.out.println("Both of them are dead. It's a tie!\n");
+			graveyard.add(c1);
+			graveyard.add(c2);
+			firstParty.remove(c1);
+			secondParty.remove(c2);
+		} else if (c1.isAlive()) {
+			System.out.println(c1.printWinner() + c2.getName() + " is dead. " + c1.getName() + " wins!\n");
+			graveyard.add(c2);
+			secondParty.remove(c2);
+
+		} else {
+			System.out.println(c2.printWinner() + c1.getName() + " is dead. " + c2.getName() + " wins!\n");
+			graveyard.add(c1);
+			firstParty.remove(c1);
+		}
+	}
 
 	public static String getType(Character character) {
 		String type;
