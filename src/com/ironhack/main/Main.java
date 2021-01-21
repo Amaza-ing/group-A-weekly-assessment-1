@@ -7,6 +7,7 @@ import com.ironhack.generator.Checker;
 import com.ironhack.generator.RandomGenerator;
 import com.ironhack.input.Input;
 import com.ironhack.styles.ConsoleColors;
+import com.ironhack.styles.Start;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -26,8 +27,7 @@ public class Main {
         int option, numFighters;
         boolean automaticBattle = false;
 
-        printStart();
-
+        Start.printStart();
         while (true) {
             //se vacían las listas para cada partida
             if (graveyard.size() > 0) {
@@ -111,8 +111,8 @@ public class Main {
                 if (firstParty.size() != 0 || secondParty.size() != 0) {
                     System.out.println("Wanna export the winner team to a file? Type 1[Yes] / 2[No]");
                     option = Input.getInputNumber(1, 2);
-//                    if (option == 1)
-//                        savePartyToFile();
+                    if (option == 1)
+                        savePartyToFile();
                 }
                 System.out.println("\nWanna play again? Type 1[Yes] / 2[No]");
                 option = Input.getInputNumber(1, 2);
@@ -129,6 +129,8 @@ public class Main {
         while (firstParty.size() > 0 && secondParty.size() > 0) {
             int IdChar1 = 0;
             int IdChar2 = 0;
+            int size1 = firstParty.size();
+            int size2 = secondParty.size();
             boolean selectOk = false;
 
             //The user can pick one opponent of each party using the IDs
@@ -161,11 +163,11 @@ public class Main {
             selectOk = false;
             do {
                 System.out.println("Select second opponent by ID: ");
-                for (Character ch : originalSecondParty) {
+                for (Character ch : secondParty) {
                     System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
-                int char2 = Input.getInputNumber(1, secondParty.size());
+                int char2 = Input.getInputNumber(1, originalSecondParty.size());
                 for (Character ch : secondParty) {
                     if (ch.getId() == char2) {
                         IdChar2 = ch.getId();
@@ -304,7 +306,7 @@ public class Main {
                 }
             } else {
                 // Randomly generated characters.
-                party.add(RandomGenerator.generateRandomCharacter(party, i+1));
+                party.add(RandomGenerator.generateRandomCharacter(party, i + 1));
             }
         }
         return party;
@@ -313,7 +315,7 @@ public class Main {
     public static List<Character> generateGroup(int quantity, int index) {
         List<Character> characters = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
-            characters.add(RandomGenerator.generateRandomCharacter(characters, i+index));
+            characters.add(RandomGenerator.generateRandomCharacter(characters, i + index));
         }
         return characters;
     }
@@ -383,27 +385,37 @@ public class Main {
         System.out.println(ConsoleColors.WHITE_BOLD);
     }
 
-//    public static void savePartyToFile() {
-//        ArrayList<Character> winners = firstParty.size() == 0 ? originalSecondParty : originalFirstParty;
-//
-//        String fileName = Input.getFileName();
-//        String filePath = "src/com/ironhack/resources/" + fileName + ".csv";
-//        try {
-//            FileWriter fw = new FileWriter(filePath);
-//            fw.write("\"Type\", \"id\", \"Name\", \"HP\", \"Stamina/Mana\", \"Strength/Intelligence\"");
-//            for (int i=0;i<winners.size(); i++) {
-//                if(getType(winners.get(i)).equals("Warrior")){
-//
-//                    fw.write("\"" + getType(winners.get(i)) + "\"" + ", "
-//                        + winners.get(i) + ", "
-//                        + ch.getName() + ", "
-//                        + ch.getHp() + ", "
-//                        + ch.() + ", "
-//                        + ch.getId() + ", ");
-//                }
-//            }
-//        } catch (IOException e) {
-//            System.err.println("Sorry, couldn't create the file. Contact Admin.");
-//        }
-//    }
+    public static void savePartyToFile() {
+        ArrayList<Character> winners = firstParty.size() == 0 ? originalSecondParty : originalFirstParty;
+
+        String fileName = Input.getFileName();
+        String filePath = "src/com/ironhack/resources/" + fileName + ".csv";
+        try {
+            FileWriter fw = new FileWriter(filePath, false);
+            fw.write("\"Type\", \"id\", \"Name\", \"HP\", \"Stamina/Mana\", \"Strength/Intelligence\"\n");
+            for (int i = 0; i < winners.size(); i++) {
+                if (getType(winners.get(i)).equals("Warrior")) {
+                    Warrior winner = (Warrior) winners.get(i);
+                    fw.write("\"" + getType(winners.get(i)) + "\"" + ", "
+                            + winner.getId() + ", "
+                            + winner.getName() + ", "
+                            + winner.getHp() + ", "
+                            + winner.getStamina() + ", "
+                            + winner.getStrength() + "\n");
+                } else {
+                    Wizard winner = (Wizard) winners.get(i);
+                    fw.write("\"" + getType(winners.get(i)) + "\"" + ", "
+                            + winner.getId() + ", "
+                            + winner.getName() + ", "
+                            + winner.getHp() + ", "
+                            + winner.getMana() + ", "
+                            + winner.getIntelligence() + "\n");
+                }
+            }
+            fw.close();
+            System.out.println("Team saved in 'Resources' folder as '" + fileName + ".csv'");
+        } catch (IOException e) {
+            System.err.println("Sorry, couldn't create the file. Contact Admin.");
+        }
+    }
 }
