@@ -13,8 +13,6 @@ public class Battle {
 		while (firstParty.size() > 0 && secondParty.size() > 0) {
 			int IdChar1 = 0;
 			int IdChar2 = 0;
-			int	size1 = firstParty.size();
-			int size2 = secondParty.size();
 			boolean selectOk = false;
 
 			//The user can pick one opponent of each party using the IDs
@@ -24,7 +22,7 @@ public class Battle {
 					System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
 				}
 
-				int char1 = Input.getInputNumber(1, size1);
+				int char1 = Input.getInputNumber(1, Init.getOriginalFirstParty().size());
 				for (Character ch : firstParty) {
 					if (ch.getId() == char1) {
 						IdChar1 = ch.getId();
@@ -51,7 +49,7 @@ public class Battle {
 					System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
 				}
 
-				int char2 = Input.getInputNumber(1, size2);
+				int char2 = Input.getInputNumber(1, Init.getOriginalSecondParty().size());
 				for (Character ch : secondParty) {
 					if (ch.getId() == char2) {
 						IdChar2 = ch.getId();
