@@ -33,6 +33,8 @@ public class Wizard extends Character implements Attacker {
         }
     }
 
+    //Attack method makes a wizard attack another character. If it has enough mana it will cast a fireball.
+    //Randomly with a 5% probability, but just once, it will restore health.
     @Override
     public void attack(Character character) {
         printAttack();

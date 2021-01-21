@@ -30,6 +30,8 @@ public class Warrior extends Character implements Attacker {
         }
     }
 
+    //Attack method makes a warrior attack another character. If it has enough stamina it will make a heavy attack.
+    //Randomly with a 5% probability, but just once, it will do a enhanced attack.
     @Override
     public void attack(Character character) {
         printAttack();
