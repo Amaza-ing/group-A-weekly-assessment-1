@@ -20,7 +20,7 @@ Al elegir esta opción, se pregunta al jugador cuántos personajes pelearán en 
 ### "Character creation" menú <a name="char_menu"></a>
 Luego de elegir el número de personajes, aparecerá iun menú para crear personajes. Este menú da dos opciones: Crear un personaje propio o que el juego asigne uno de forma aleatoria.
 
-![]images/2_Character_creation.png
+![](https://github.com/Adrimava/group-A-weekly-assessment-1/blob/develop/images/2_Character_creation.png)
 
 Entre paréntesis, aparecerá el número de personaje que se está creando. Por ejemplo, si se eligió que 5 personajes iban a jugar la partida, al crear el personaje aparecerá: (1/5) en el primer personaje, (2/5) en el segundo y así suscesivamente.
 
@@ -42,7 +42,7 @@ Estos pasos se realizan para cada una de las partidas.
 Una vez creados todo los personajes para ambas partidas, el sistema imprimirá por pantalla a los personajes miembros de la misma para que sean elegidos para la batalla.
 
 Se imprimirá por pantalla el personaje elegido:
-![]images/3_Selected_character.png
+![](https://github.com/Adrimava/group-A-weekly-assessment-1/blob/develop/images/3_Selected_character.png)
 
 Una vez elegidos los personajes, ¡empieza la batalla!
 
@@ -51,7 +51,7 @@ Una vez elegidos los personajes, ¡empieza la batalla!
 Cada ataque será preparado por el ordenador y se imprimirá un log de los ataques realizados y los impactos en cada jugador.
 
 Finalmente se imprimirá por pantalla el jugador ganador y se pedirá elegir los siguientes oponentes:
-![]images/4_winner_select_next.png
+![](https://github.com/Adrimava/group-A-weekly-assessment-1/blob/develop/images/4_winner_select_next.png)
 
 El juego continuará enfrentando oponentes hasta que una de las partidas termine sin jugadores.
 
@@ -59,7 +59,7 @@ El juego continuará enfrentando oponentes hasta que una de las partidas termine
 Cuando una de las partidas ha eliminado a todos los jugadores de la partida contrincante, el juego la declara ganadora y el combate ha terminado.
 
 Se preguntará al usuario si se desea visitar el cementerio (graveyard):
-![]images/5_battle_ended_visit_grvyrd.png
+![](https://github.com/Adrimava/group-A-weekly-assessment-1/blob/develop/images/5_battle_ended_visit_grvyrd.png)
 
 Si se ha elegido verla, el menú pregunta si se desea volver a jugar o si se desea salir del juego.
 
@@ -81,4 +81,5 @@ Al tener una partida ganadora, nuevamente se puede [visitar el cementerio](#grav
 
 ## Opción 4: Generar partidas y elegir el personaje aleatoriamente
 En esta opción, se crean automáticamente dos partidas y el juego inicia inmediatamente. El jugador puede revisar por consola como avanzan las batallas y los ganadores en cada caso.
+![](https://github.com/Adrimava/group-A-weekly-assessment-1/blob/develop/images/6_random_choice.gif)
 
