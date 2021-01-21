@@ -9,6 +9,7 @@ import com.ironhack.main.Init;
 import java.util.List;
 
 public class Battle {
+	//battle method makes two different character list fight each other according to some user input.
 	public static void battle(List<Character> firstParty, List<Character> secondParty) {
 		while (firstParty.size() > 0 && secondParty.size() > 0) {
 			int IdChar1 = 0;
@@ -74,7 +75,8 @@ public class Battle {
 		}
 	}
 
-	    public static void automaticBattle(List<Character> firstParty, List<Character> secondParty) {
+	//automaticBattle method makes two different character list fight each other automatically.
+	public static void automaticBattle(List<Character> firstParty, List<Character> secondParty) {
         while (firstParty.size() > 0 && secondParty.size() > 0) {
             for (Character ch : firstParty) {
                 System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
@@ -97,6 +99,7 @@ public class Battle {
         }
     }
 
+    //combat method makes two characters fight simultaneously until one, or both of them die.
 	public static void combat(Character c1, Character c2) {
 		while (c1.isAlive() && c2.isAlive()) {
 			c1.attack(c2);
@@ -132,6 +135,7 @@ public class Battle {
 		return type;
 	}
 
+	//result method show the winner party.
 	public static void result() {
 		if (Init.firstParty.size() == 0 && Init.secondParty.size() == 0) {
 			System.out.println("\nParty crasher!! Everyone's dead. Nobody wins.\n");
