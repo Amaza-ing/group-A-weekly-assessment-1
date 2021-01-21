@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Input {
 
+	//Gets a number within the limits passed as parameters.
 	public static int getInputNumber(int min, int max) {
 		Scanner scanner = new Scanner(System.in);
 		String	str = "";
@@ -31,6 +32,7 @@ public class Input {
 		return result;
 	}
 
+	//Gets a proper name for a the fighter with hard-coded boundaries
 	public static String getFighterName(String fighterType) {
 		Scanner scanner = new Scanner(System.in);
 		String fighterName;
@@ -44,6 +46,7 @@ public class Input {
 		return fighterName;
 	}
 
+	//Gets a proper name for a file with hard-coded boundaries
 	public static String getFileName() {
 		Scanner scanner = new Scanner(System.in);
 		String fileName;
