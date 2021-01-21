@@ -1,5 +1,6 @@
 package com.ironhack.styles;
 
+// The following class encloses console colors code in a more readable form to be used.
 public class ConsoleColors {
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset

@@ -27,6 +27,7 @@ public class Main {
         int option, numFighters;
         boolean automaticBattle = false;
 
+//      The printStart method prints a header for the game before launching the initial menu.
         Start.printStart();
         while (true) {
             //se vacían las listas para cada partida
