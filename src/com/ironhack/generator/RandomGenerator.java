@@ -4,6 +4,7 @@ import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
 import com.ironhack.classes.Wizard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RandomGenerator {
@@ -30,6 +31,15 @@ public class RandomGenerator {
 			}
 		}
 		return character;
+	}
+
+	//Generates a group of random characters of a certain size
+	public static List<Character> generateGroup(int quantity, int index) {
+		List<Character> characters = new ArrayList<>();
+		for (int i = 0; i < quantity; i++) {
+			characters.add(RandomGenerator.generateRandomCharacter(characters, i + index));
+		}
+		return characters;
 	}
 
 	// método para generar números random y hacer código mas limpio

@@ -65,14 +65,14 @@ public class Main {
                     // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
                     System.out.println("How many characters will be fighting for each party? Max number = 10\n");
                     numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
-                    Init.firstParty = new ArrayList<>(generateGroup(numFighters, 1));
-                    Init.secondParty = new ArrayList<>(generateGroup(numFighters, 1));
+                    Init.firstParty = new ArrayList<>(RandomGenerator.generateGroup(numFighters, 1));
+                    Init.secondParty = new ArrayList<>(RandomGenerator.generateGroup(numFighters, 1));
                     break;
                 case 4:
                     numFighters = RandomGenerator.randomNumber(1, MAX_NUM_OF_FIGHTERS);
                     System.out.println("There are: " + numFighters + " characters in each party.");
-                    Init.firstParty = new ArrayList<>(generateGroup(numFighters, 1));
-                    Init.secondParty = new ArrayList<>(generateGroup(numFighters, 1));
+                    Init.firstParty = new ArrayList<>(RandomGenerator.generateGroup(numFighters, 1));
+                    Init.secondParty = new ArrayList<>(RandomGenerator.generateGroup(numFighters, 1));
                     automaticBattle = true;
                     break;
                 case 5:
@@ -117,14 +117,5 @@ public class Main {
                 }
             }
         }
-    }
-
-    //Generates a group of random characters of a certain size
-    public static List<Character> generateGroup(int quantity, int index) {
-        List<Character> characters = new ArrayList<>();
-        for (int i = 0; i < quantity; i++) {
-            characters.add(RandomGenerator.generateRandomCharacter(characters, i + index));
-        }
-        return characters;
     }
 }
