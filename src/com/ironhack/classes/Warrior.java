@@ -14,8 +14,8 @@ public class Warrior extends Character implements Attacker {
         this.used = false;
     }
 
-    //An enhanced attack consumes 7 points of stamina to deal 30% more damage on hit. It works the same way the heavy
-    //attack does, it just deals more damage, consumes more stamina, and can only be casted ONCE!
+//  An enhanced attack consumes 7 points of stamina to deal 30% more damage on hit. It works the same way the heavy
+//  attack does, it just deals more damage, consumes more stamina, and can only be casted ONCE!
     private void enhancedAttack(Character character) {
 
         if (this.stamina >= 7) {
@@ -30,8 +30,8 @@ public class Warrior extends Character implements Attacker {
         }
     }
 
-    //Attack method makes a warrior attack another character. If it has enough stamina it will make a heavy attack.
-    //Randomly with a 5% probability, but just once, it will do a enhanced attack.
+//  Attack method makes a warrior attack another character. If it has enough stamina it will make a heavy attack.
+//  Randomly with a 5% probability, but just once, it will do a enhanced attack.
     @Override
     public void attack(Character character) {
         printAttack();
@@ -56,8 +56,8 @@ public class Warrior extends Character implements Attacker {
         }
     }
 
-//    The method printAvatar in the abstract class Character is overridden below.
-//    The method prints a symbol for the warrior using a for loop and uses the getName method to call the selected character name.
+//  The method printAvatar in the abstract class Character is overridden below.
+//  The method prints a symbol for the warrior using a for loop and uses the getName method to call the selected character name.
     @Override
     public String printAvatar() {
         System.out.println(ConsoleColors.RED_BOLD);
@@ -94,8 +94,7 @@ public class Warrior extends Character implements Attacker {
 
     }
 
-    //Getters and Setters
-
+//  Getters and Setters
     public int getStamina() {
         return stamina;
     }

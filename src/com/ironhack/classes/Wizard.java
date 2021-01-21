@@ -14,9 +14,9 @@ public class Wizard extends Character implements Attacker {
         this.used = false;
     }
 
-    //restoreHealth restores 30% of the player's current health and consumes 7 points of mana.
-    //If the healing is over the 100hp limit for Wizards, HP will be set to the maximum 100hp.
-    //RestoreHealth can only be used ONCE.
+//  RestoreHealth restores 30% of the player's current health and consumes 7 points of mana.
+//  If the healing is over the 100hp limit for Wizards, HP will be set to the maximum 100hp.
+//  RestoreHealth can only be used ONCE.
     public void restoreHealth() {
         if (this.mana >= 7) {
             int health = getHp();
@@ -33,8 +33,8 @@ public class Wizard extends Character implements Attacker {
         }
     }
 
-    //Attack method makes a wizard attack another character. If it has enough mana it will cast a fireball.
-    //Randomly with a 5% probability, but just once, it will restore health.
+//  Attack method makes a wizard attack another character. If it has enough mana it will cast a fireball.
+//  Randomly with a 5% probability, but just once, it will restore health.
     @Override
     public void attack(Character character) {
         printAttack();
@@ -59,8 +59,8 @@ public class Wizard extends Character implements Attacker {
         }
     }
 
-//    The method printAvatar in the abstract class Character is overridden below.
-//    The method below prints a symbol for the wizard using a for loop and uses the getName method to call the selected character name.
+//  The method printAvatar in the abstract class Character is overridden below.
+//  The method below prints a symbol for the wizard using a for loop and uses the getName method to call the selected character name.
     @Override
     public String printAvatar() {
         System.out.println(ConsoleColors.PURPLE_BOLD);
@@ -79,8 +79,7 @@ public class Wizard extends Character implements Attacker {
     }
 
 
-    // Getters and Setters
-
+//  Getters and Setters
     public int getMana() {
         return mana;
     }

@@ -2,6 +2,7 @@ package com.ironhack.generator;
 
 import com.ironhack.input.Input;
 
+//All the methods in this class help to check the values typed by the user when creating a new character.
 public class Checker {
 	public static int checkHP(String fighterType, int hp) {
 		if (fighterType.equals("Warrior")) {
