@@ -17,16 +17,30 @@ public class Wizard extends Character implements Attacker {
     //restoreHealth restores 20% of the player's current health. If the healing is over the 100hp limit for Wizards,
     //HP will be set to the maximum 100hp. RestoreHealth can only be used ONCE.
     public void restoreHealth() {
-
-        if ((int) (getHp()*1.2) <= 100) {
-            setHp((int) (getHp()*1.2));
-        } else setHp(100);
-        setUsed(true);
+        if (this.mana >= 7) {
+            int health = getHp();
+            if ((int) (getHp()*1.3) <= 100) {
+                setHp((int) (getHp()*1.3));
+            } else setHp(100);
+            System.out.print(getName() + " used Restore Health. ");
+            System.out.println(getName() + " self-healed " + (getHp()-health) + " hp.");
+            setMana(this.mana - 7);
+            System.out.println(getName() + " uses 7 mana and now has: " + getMana() + " left.");
+            setUsed(true);
+        } else {
+            System.out.println("The Wizard " + getName() + " does not have enough mana to cast Restore Health.");
+        }
     }
 
     @Override
     public void attack(Character character) {
         printAttack();
+        if (!isUsed()) {
+            int randomNum = (int) (Math.random() * (20));
+            if (randomNum == 19) {
+                restoreHealth();
+            }
+        }
         if (this.mana >= 5) {
             System.out.print(getName() + " casted a fireball to " + character.getName() + ". ");
             System.out.println(character.getName() + " loses " + (this.intelligence) + " hp.");
