@@ -27,6 +27,12 @@ public class Wizard extends Character implements Attacker {
     @Override
     public void attack(Character character) {
         printAttack();
+        if (!this.used) {
+            int randomNum = (int) (Math.random() * (20));
+            if (randomNum == 20) {
+                restoreHealth();
+            }
+        }
         if (this.mana >= 5) {
             System.out.print(getName() + " casted a fireball to " + character.getName() + ". ");
             System.out.println(character.getName() + " loses " + (this.intelligence) + " hp.");
