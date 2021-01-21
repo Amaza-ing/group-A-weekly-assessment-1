@@ -63,6 +63,11 @@ Se preguntará al usuario si se desea visitar el cementerio (graveyard):
 
 Si se ha elegido verla, el menú pregunta si se desea volver a jugar o si se desea salir del juego.
 
+### Exportar partida ganadora como un csv
+Luego de visitar el cementerio, un mensaje preguntará al jugador si desea exportar la partida ganadora a una archivo csv:
+
+![](https://github.com/Adrimava/group-A-weekly-assessment-1/blob/develop/images/7_export_winner.png)
+
 ## Opción 2: Subir las partidas desde un csv
 Esta opción permite cargar las partidas desde archivos csv. Para hacerlo se debe ingresar el nombre del archivo en dicho formato.
 
