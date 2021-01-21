@@ -111,7 +111,6 @@ public class Main {
     }
 
     public static void battle(List<Character> firstParty, List<Character> secondParty) {
-        Scanner sc = new Scanner(System.in);
         while (firstParty.size() > 0 && secondParty.size() > 0) {
             int IdChar1 = 0;
             int IdChar2 = 0;
@@ -124,7 +123,7 @@ public class Main {
                     System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
-                int char1 = sc.nextInt();
+                int char1 = Input.getInputNumber(1, firstParty.size());
                 for (Character ch : firstParty) {
                     if (ch.getId() == char1) {
                         IdChar1 = ch.getId();
@@ -151,7 +150,7 @@ public class Main {
                     System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
-                int char2 = sc.nextInt();
+                int char2 = Input.getInputNumber(1, secondParty.size());
                 for (Character ch : secondParty) {
                     if (ch.getId() == char2) {
                         IdChar2 = ch.getId();
