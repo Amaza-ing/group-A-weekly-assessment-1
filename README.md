@@ -10,7 +10,7 @@ Al abrir el archivo, se debe ejecutar el mismo desde el IDE.
 
 Una vez ejecutado, el podrá ver por consola la siguiente pantalla:
 
-![]https://github.com/Adrimava/group-A-weekly-assessment-1/blob/develop/images/01_Intro.png
+![](https://github.com/Adrimava/group-A-weekly-assessment-1/blob/develop/images/01_Intro.png)
 
 Este es el menú de inicio, hay 5 opciones posibles. El menú ha sido diseñado para que solo acepte esos 5 números posibles. En caso de ingresar otro caracter, se recibe el mensaje "You must type a number" y se pide ingresar nuevamente el número.
 
