@@ -43,4 +43,17 @@ public class Input {
 		} while (fighterName.length() < 4 || fighterName.length() > 40);
 		return fighterName;
 	}
+
+	public static String getFileName() {
+		Scanner scanner = new Scanner(System.in);
+		String fileName;
+
+		do {
+			System.out.println("Write the name for your team.");
+			fileName = scanner.nextLine();
+			if (fileName.length() < 4 || fileName.length() > 15)
+				System.err.println("Files names must be between 4 and 15 characters long.");
+		} while (fileName.length() < 4 || fileName.length() > 15);
+		return fileName.trim();
+	}
 }
