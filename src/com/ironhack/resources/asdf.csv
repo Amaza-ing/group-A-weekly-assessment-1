@@ -1,0 +1,10 @@
+"Type", "id", "Name", "HP", "Stamina/Mana", "Strength/Intelligence"
+"Warrior", 1, Sylvanas, 0, 5, 4
+"Warrior", 2, Darth Vader, 0, 0, 4
+"Wizard", 3, Varian Wrynn, 0, 1, 22
+"Wizard", 4, Thanos, 0, 12, 8
+"Warrior", 5, Legolas, 10, 2, 5
+"Wizard", 6, Víctor Cardozo, 11, 0, 31
+"Wizard", 7, Xabier García, 36, 22, 43
+"Wizard", 8, Steve Jobs, 2, 18, 41
+"Warrior", 9, Mark Zuckerberg, 0, 24, 1

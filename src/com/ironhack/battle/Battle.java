@@ -2,12 +2,13 @@ package com.ironhack.battle;
 
 import com.ironhack.classes.Character;
 import com.ironhack.classes.Warrior;
+import com.ironhack.generator.RandomGenerator;
 import com.ironhack.input.Input;
+import com.ironhack.main.Init;
 
 import java.util.List;
 
 public class Battle {
-	/*
 	public static void battle(List<Character> firstParty, List<Character> secondParty) {
 		while (firstParty.size() > 0 && secondParty.size() > 0) {
 			int IdChar1 = 0;
@@ -75,6 +76,29 @@ public class Battle {
 		}
 	}
 
+	    public static void automaticBattle(List<Character> firstParty, List<Character> secondParty) {
+        while (firstParty.size() > 0 && secondParty.size() > 0) {
+            for (Character ch : firstParty) {
+                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
+            }
+            int char1 = RandomGenerator.randomNumber(0, firstParty.size() - 1);
+            System.out.println("Character chosen from first party: " + firstParty.get(char1).getName());
+            Character opponent1 = firstParty.get(char1);
+            System.out.println(opponent1.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
+
+            for (Character ch : secondParty) {
+                System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
+            }
+            int char2 = RandomGenerator.randomNumber(0, secondParty.size() - 1);
+            System.out.println("Character chosen from second party: " + secondParty.get(char2).getName());
+            Character opponent2 = secondParty.get(char2);
+            System.out.println(opponent2.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
+
+            //The two opponents get in combat until one or both are dead
+            combat(opponent1, opponent2);
+        }
+    }
+
 	public static void combat(Character c1, Character c2) {
 		while (c1.isAlive() && c2.isAlive()) {
 			c1.attack(c2);
@@ -84,22 +108,23 @@ public class Battle {
 		}
 		if (!c1.isAlive() && !c2.isAlive()) {
 			System.out.println("Both of them are dead. It's a tie!\n");
-			graveyard.add(c1);
-			graveyard.add(c2);
-			firstParty.remove(c1);
-			secondParty.remove(c2);
+			Init.graveyard.add(c1);
+			Init.graveyard.add(c2);
+			Init.firstParty.remove(c1);
+			Init.secondParty.remove(c2);
 		} else if (c1.isAlive()) {
 			System.out.println(c1.printWinner() + c2.getName() + " is dead. " + c1.getName() + " wins!\n");
-			graveyard.add(c2);
-			secondParty.remove(c2);
+			Init.graveyard.add(c2);
+			Init.secondParty.remove(c2);
 
 		} else {
 			System.out.println(c2.printWinner() + c1.getName() + " is dead. " + c2.getName() + " wins!\n");
-			graveyard.add(c1);
-			firstParty.remove(c1);
+			Init.graveyard.add(c1);
+			Init.firstParty.remove(c1);
 		}
 	}
 
+	//Returns the class name of a Character as a String
 	public static String getType(Character character) {
 		String type;
 		if (character.getClass() == Warrior.class)
@@ -108,6 +133,4 @@ public class Battle {
 			type = "Wizard";
 		return type;
 	}
-
-	 */
 }
