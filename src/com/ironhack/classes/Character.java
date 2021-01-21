@@ -25,7 +25,7 @@ public abstract class Character implements Attacker {
         System.out.println(ConsoleColors.YELLOW_BOLD);
         for(int i=0; i<attackLoad.length;i++){
             System.out.print(attackLoad[i]);
-            try{Thread.sleep(200);
+            try{Thread.sleep(30);
             }catch (InterruptedException e){
                 System.out.print("Loading...");
             }
