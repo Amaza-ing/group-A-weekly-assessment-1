@@ -2,14 +2,10 @@ package com.ironhack.main;
 
 import com.ironhack.battle.Battle;
 import com.ironhack.classes.Character;
-import com.ironhack.classes.Warrior;
-import com.ironhack.classes.Wizard;
-import com.ironhack.generator.Checker;
 import com.ironhack.generator.Generator;
 import com.ironhack.generator.RandomGenerator;
 import com.ironhack.importExport.ImportExport;
 import com.ironhack.input.Input;
-import com.ironhack.styles.ConsoleColors;
 import com.ironhack.styles.Start;
 
 import java.io.IOException;
@@ -26,7 +22,7 @@ public class Main {
 //      The printStart method prints a header for the game before launching the initial menu.
         Start.printStart();
         while (true) {
-            //se vacían las listas para cada partida
+//          All the array lists are emptied before starting a new match
             if (Init.getGraveyard().size() > 0) {
                 Init.clear();
             }
@@ -62,7 +58,7 @@ public class Main {
                     }
                     break;
                 case 3:
-                    // Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
+//                  First we ask the user the amount of fighters per party. It has a 10-characters limit.
                     System.out.println("How many characters will be fighting for each party? Max number = 10\n");
                     numFighters = Input.getInputNumber(1, MAX_NUM_OF_FIGHTERS);
                     Init.firstParty = new ArrayList<>(RandomGenerator.generateGroup(numFighters, 1));
@@ -80,13 +76,14 @@ public class Main {
                     System.exit(1);
                     break;
                 default:
+                    System.exit(1);
                     break;
             }
             if (Init.firstParty == null || Init.secondParty == null) {
                 System.err.println("Something went wrong creating parties...");
             } else {
                 System.out.println("Parties created. Starting battle!");
-                //The "originals" save the parties in case the user decides to save the winner team into a .csv file
+//              The "originals" save the parties in case the user decides to save the winner team into a .csv file
                 Init.originalFirstParty = new ArrayList<Character>(Init.firstParty) ;
                 Init.originalSecondParty = new ArrayList<Character>(Init.secondParty);
 
@@ -102,7 +99,7 @@ public class Main {
                 if (option == 1) {
                    Init.graveyard();
                 }
-                //If one team has won, user can export the winning team to a .csv file
+//              If one team has won, user can export the winning team to a .csv file
                 if (Init.firstParty.size() != 0 || Init.secondParty.size() != 0) {
                     System.out.println("Wanna export the winner team to a file? Type 1[Yes] / 2[No]");
                     option = Input.getInputNumber(1, 2);

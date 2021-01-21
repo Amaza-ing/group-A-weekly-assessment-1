@@ -14,7 +14,7 @@ public class Generator {
 		ArrayList<Character> party = new ArrayList<>();
 		String fighterName;
 
-		// Primero determinamos cuantos personajes tendrá la facción, siempre inferior a 10.
+//		First we ask the user the amount of fighters per party. It has a 10-characters limit.
 		System.out.println("How many characters will be fighting for this party?  Max number = 10");
 		CharacterNum = Input.getInputNumber(1, 10);
 		//Aquí empieza el proceso de creación de los personajes. Primero pedimos si se quiere crear el personaje
