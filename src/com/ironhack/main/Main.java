@@ -129,8 +129,6 @@ public class Main {
         while (firstParty.size() > 0 && secondParty.size() > 0) {
             int IdChar1 = 0;
             int IdChar2 = 0;
-            int size1 = firstParty.size();
-            int size2 = secondParty.size();
             boolean selectOk = false;
 
             //The user can pick one opponent of each party using the IDs
@@ -385,6 +383,7 @@ public class Main {
         System.out.println(ConsoleColors.WHITE_BOLD);
     }
 
+    //Export the party to an importable CSV file. The file gets stored in the "Resources" folder
     public static void savePartyToFile() {
         ArrayList<Character> winners = firstParty.size() == 0 ? originalSecondParty : originalFirstParty;
 

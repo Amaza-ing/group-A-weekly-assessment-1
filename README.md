@@ -4,7 +4,7 @@ Grupo A: "E.M.O.F." (En Mi Ordenador Funciona)
 
 Este repositorio contiene el código para ejecutar el juego "Warriors vs Wizards".
 
-Para iniciar el juego se debe abrir el archivo: Main.java desde cualquier IDE que soporte JVM.
+Para iniciar el juego se debe abrir el archivo: ´´´Main.java´´´ desde cualquier IDE que soporte JVM.
 
 Al abrir el archivo, se debe ejecutar el mismo desde el IDE.
 
