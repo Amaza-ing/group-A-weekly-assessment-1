@@ -24,7 +24,7 @@ Luego de elegir el número de personajes, aparecerá iun menú para crear person
 
 Entre paréntesis, aparecerá el número de personaje que se está creando. Por ejemplo, si se eligió que 5 personajes iban a jugar la partida, al crear el personaje aparecerá: (1/5) en el primer personaje, (2/5) en el segundo y así suscesivamente.
 
-Si se elige crear el propio personaje, lo primero será elegir si es "warrior" o "wizard". Luego, se pedirá ponerle un nombre al personaje y se pedirá ingresar los siguientes XXX 
+Si se elige crear el propio personaje, lo primero será elegir si es "warrior" o "wizard". Luego, se pedirá ponerle un nombre al personaje y se pedirá ingresar los siguientes valores: 
 
 En caso de warriors: 
 * Health points
@@ -77,7 +77,7 @@ Automática y aleatoriamente, se asignan personajes a las partidas según el nú
 
 Lo siguiente, y como visto en [selección de oponentes para la batalla](#opponents_selection), es elegir a los oponentes, luego de lo cual, ¡la batalla inicia!
 
-Al tener una partida ganadora, nuevamente se puede [visitar el cementerio](#graveyard) y elegir volver a jugar o salir del juego.
+Al tener una partida ganadora, nuevamente se puede [visitar el cementerio](#visit_graveyard) y elegir volver a jugar o salir del juego.
 
 ## Opción 4: Generar partidas y elegir el personaje aleatoriamente
 En esta opción, se crean automáticamente dos partidas y el juego inicia inmediatamente. El jugador puede revisar por consola como avanzan las batallas y los ganadores en cada caso.
