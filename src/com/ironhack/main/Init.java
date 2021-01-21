@@ -19,6 +19,13 @@ public class Init {
 		graveyard.clear();
 	}
 
+	public static void graveyard() {
+		System.out.println("Rest in peace:\n");
+		for (Character i : Init.graveyard) {
+			System.out.println(i.getName() + ".");
+		}
+	}
+
 	public static ArrayList<Character> getFirstParty() {
 		return firstParty;
 	}

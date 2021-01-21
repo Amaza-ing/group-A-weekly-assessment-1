@@ -8,6 +8,7 @@ import java.util.List;
 
 public class RandomGenerator {
 
+	// Método hecho para generar personajes aleatorios en caso de que en el menú sea seleccionado.
 	public static Character generateRandomCharacter(List<Character> currentCharacters, int id) {
 
 		// Array con lista de String para los combates

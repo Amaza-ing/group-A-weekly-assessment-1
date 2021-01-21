@@ -97,11 +97,11 @@ public class Main {
                     Battle.automaticBattle(Init.firstParty, Init.secondParty);
                 }
                 System.out.println("Battle has ended!");
-                result();
+                Battle.result();
                 System.out.println("Wanna see the graveyard? Type 1[Yes] / 2[No]");
                 option = Input.getInputNumber(1, 2);
                 if (option == 1) {
-                    graveyard();
+                   Init.graveyard();
                 }
                 //If one team has won, user can export the winning team to a .csv file
                 if (Init.firstParty.size() != 0 || Init.secondParty.size() != 0) {
@@ -117,24 +117,6 @@ public class Main {
                     System.exit(1);
                 }
             }
-        }
-
-    }
-
-    public static void result() {
-        if (Init.firstParty.size() == 0 && Init.secondParty.size() == 0) {
-            System.out.println("\nParty crasher!! Everyone's dead. Nobody wins.\n");
-        } else if (Init.firstParty.size() == 0) {
-            System.out.println("\nParty 2 wins!\n");
-        } else {
-            System.out.println("\nParty 1 wins!\n");
-        }
-    }
-
-    public static void graveyard() {
-        System.out.println("Rest in peace:\n");
-        for (Character i : Init.graveyard) {
-            System.out.println(i.getName() + ".");
         }
     }
 
