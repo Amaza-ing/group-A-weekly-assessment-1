@@ -138,7 +138,7 @@ public class Main {
                     System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
-                int char1 = Input.getInputNumber(1, firstParty.size());
+                int char1 = Input.getInputNumber(1, originalFirstParty.size());
                 for (Character ch : firstParty) {
                     if (ch.getId() == char1) {
                         IdChar1 = ch.getId();
@@ -161,7 +161,7 @@ public class Main {
             selectOk = false;
             do {
                 System.out.println("Select second opponent by ID: ");
-                for (Character ch : secondParty) {
+                for (Character ch : originalSecondParty) {
                     System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
                 }
 
