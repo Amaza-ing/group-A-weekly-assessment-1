@@ -9,14 +9,14 @@ import com.ironhack.main.Init;
 import java.util.List;
 
 public class Battle {
-	//battle method makes two different character list fight each other according to some user input.
+//	Battle method makes two different character list fight each other according to some user input.
 	public static void battle(List<Character> firstParty, List<Character> secondParty) {
 		while (firstParty.size() > 0 && secondParty.size() > 0) {
 			int IdChar1 = 0;
 			int IdChar2 = 0;
 			boolean selectOk = false;
 
-			//The user can pick one opponent of each party using the IDs
+//			The user can pick one opponent of each party using the IDs
 			do {
 				System.out.println("Select first opponent by ID: ");
 				for (Character ch : firstParty) {
@@ -35,13 +35,12 @@ public class Battle {
 				}
 			} while (!selectOk);
 
-			//Se busca el personaje y se muestra con su avatar
+//			The character of the first party is selected and showed alongside the avatar.
 			int firstChar = IdChar1;
 			Character opponent1 = firstParty.stream().
 					filter(x -> x.getId() == firstChar).
 					findFirst().get();
-			System.out.println(opponent1.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
-
+			System.out.println(opponent1.printAvatar());
 
 			selectOk = false;
 			do {
@@ -62,20 +61,21 @@ public class Battle {
 				}
 			} while (!selectOk);
 
+//			The character of the second party is selected and showed alongside the avatar.
 			int secondChar = IdChar2;
 			Character opponent2 = secondParty.stream().
 					filter(x -> x.getId() == secondChar).
 					findFirst().get();
-			System.out.println(opponent2.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
+			System.out.println(opponent2.printAvatar());
 
-			//The two opponents get in combat until one or both are dead
+//			The two opponents get in combat until one or both are dead
 			combat(opponent1, opponent2);
 
-			//This continues until one or both parties have no more characters.
+//			This continues until one or both parties have no more characters.
 		}
 	}
 
-	//automaticBattle method makes two different character list fight each other automatically.
+//	automaticBattle method makes two different characters list fight each other automatically.
 	public static void automaticBattle(List<Character> firstParty, List<Character> secondParty) {
         while (firstParty.size() > 0 && secondParty.size() > 0) {
             for (Character ch : firstParty) {
@@ -84,7 +84,7 @@ public class Battle {
             int char1 = RandomGenerator.randomNumber(0, firstParty.size() - 1);
             System.out.println("Character chosen from first party: " + firstParty.get(char1).getName());
             Character opponent1 = firstParty.get(char1);
-            System.out.println(opponent1.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
+            System.out.println(opponent1.printAvatar());
 
             for (Character ch : secondParty) {
                 System.out.println("ID: " + ch.getId() + " - " + ch.getName() + "  [" + getType(ch) + "]");
@@ -92,14 +92,14 @@ public class Battle {
             int char2 = RandomGenerator.randomNumber(0, secondParty.size() - 1);
             System.out.println("Character chosen from second party: " + secondParty.get(char2).getName());
             Character opponent2 = secondParty.get(char2);
-            System.out.println(opponent2.printAvatar()); // Se añade el print avatar cuando selecciona el personaje
+            System.out.println(opponent2.printAvatar());
 
             //The two opponents get in combat until one or both are dead
             combat(opponent1, opponent2);
         }
     }
 
-    //combat method makes two characters fight simultaneously until one, or both of them die.
+//	combat method makes two characters fight simultaneously until one, or both of them are dead.
 	public static void combat(Character c1, Character c2) {
 		while (c1.isAlive() && c2.isAlive()) {
 			c1.attack(c2);
@@ -125,7 +125,7 @@ public class Battle {
 		}
 	}
 
-	//Returns the class name of a Character as a String
+//	Returns the class name of a Character as a String
 	public static String getType(Character character) {
 		String type;
 		if (character.getClass() == Warrior.class)
@@ -135,7 +135,7 @@ public class Battle {
 		return type;
 	}
 
-	//result method show the winner party.
+//	Shows the winner party.
 	public static void result() {
 		if (Init.firstParty.size() == 0 && Init.secondParty.size() == 0) {
 			System.out.println("\nParty crasher!! Everyone's dead. Nobody wins.\n");

@@ -2,6 +2,7 @@ package com.ironhack.generator;
 
 import com.ironhack.input.Input;
 
+//All the methods in this class help to check the values typed by the user when creating a new character.
 public class Checker {
 	//In this class we have included all the check-methods we have used to verify that the data for each character is
 	//set correctly. These are pretty straight-forward to understand as they build using only comparisons and loops.
