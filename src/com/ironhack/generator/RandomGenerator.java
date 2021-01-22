@@ -44,6 +44,6 @@ public class RandomGenerator {
 
 // 	Random number generator within min and max limits.
 	public static int randomNumber(int min, int max) {
-		return (int) (Math.random() * ((max - min) + 1));
+		return (int) (Math.random() * ((max - min + 1)) + min);
 	}
 }
