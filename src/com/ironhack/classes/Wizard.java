@@ -74,7 +74,7 @@ public class Wizard extends Character implements Attacker {
             System.out.println();
         }
         System.out.println("=========");
-        System.out.println(" WIZZARD " + ConsoleColors.WHITE_BOLD);
+        System.out.println(" WIZARD " + ConsoleColors.WHITE_BOLD);
         return getName().toUpperCase() + "\n\n";
     }
 
